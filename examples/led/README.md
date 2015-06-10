@@ -1,15 +1,15 @@
 The current error and Work status 
 ==========
 
--Used the -fPIC flag while creating object files.
--Removed the static flag , changing it to shared is causing problem.
--Created a new linker script ( simple version ), which causes some issues in startup code ( See below )
--Not able to utilize the -R flag of ld. Problem in adding the flag to the linker script.
+-Used the -fPIC flag while creating object files  
+-Removed the static flag , changing it to shared is causing problem.  
+-Created a new linker script ( simple version ), which causes some issues in startup code ( See below )  
+-Not able to utilize the -R flag of ld. Problem in adding the flag to the linker script.  
 -Had some issues about the use of archived libraries.
 
 Creating a default(new) linker script causes the symbols used in previous
-linker script not getting used anymore. This causes undefined symbol references
-in startup code.
+linker script not getting used anymore.  
+This causes undefined symbol references in startup code.
 
 
 Here are the errors currently faced --
