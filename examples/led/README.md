@@ -1,118 +1,100 @@
-examples/default
-================
-This application is a showcase for RIOT's hardware support. Using it
-for your board, you should be able to interactively use any hardware
-that is supported.
-
-To do this, the application uses the `shell` and `shell_commands`
-modules and all the driver modules each board supports.
-
-`shell` is a very simple interactive command interpreter that can be
-used to call functions.  Many of RIOT's modules define some generic
-shell commands. These are included via the `shell_commands` module.
-
-Additionally, the `ps` module which provides the `ps` shell command is
-included.
-
-Finally, in order for the shell to receive input, the `uart0` module
-is used.
-
-
-Usage
-=====
-
-Build, flash and start the application:
-```
-export BOARD=your_board
-make
-make flash
-make term
-```
-
-The `term` make target starts a terminal emulator for your board. It
-connects to a default port so you can interact with the shell, usually
-that is `/dev/ttyUSB0`. If your port is named differently, the
-`PORT=/dev/yourport` variable can be used to override this.
-
-
-Example output
-==============
-
-The shell commands come with online help. Call `help` to see which commands
-exist and what they do.
-
-Running the `help` command on an msba2:
-```
-2014-05-06 13:14:38,508 - INFO # > help
-2014-05-06 13:14:38,511 - INFO # Command              Description
-2014-05-06 13:14:38,515 - INFO # ---------------------------------------
-2014-05-06 13:14:38,518 - INFO # reboot               Reboot the node
-2014-05-06 13:14:38,522 - INFO # id                   Gets or sets the node's id.
-2014-05-06 13:14:38,529 - INFO # heap                 Shows the heap state for the LPC2387 on the command shell.
-2014-05-06 13:14:38,535 - INFO # ps                   Prints information about running threads.
-2014-05-06 13:14:38,544 - INFO # temp                 Prints measured temperature.
-2014-05-06 13:14:38,548 - INFO # hum                  Prints measured humidity.
-2014-05-06 13:14:38,553 - INFO # weather              Prints measured humidity and temperature.
-2014-05-06 13:14:38,557 - INFO # offset               Set temperature offset.
-2014-05-06 13:14:38,563 - INFO # cur                  Prints current and average power consumption.
-2014-05-06 13:14:38,567 - INFO # rstcur               Resets coulomb counter.
-2014-05-06 13:14:38,573 - INFO # addr                 Gets or sets the address for the transceiver
-2014-05-06 13:14:38,579 - INFO # chan                 Gets or sets the channel for the transceiver
-2014-05-06 13:14:38,585 - INFO # txtsnd               Sends a text message to a given node via the transceiver
-2014-05-06 13:14:38,592 - INFO # monitor              Enables or disables address checking for the transceiver
-2014-05-06 13:14:38,598 - INFO # dread_sec            Reads the specified sector of inserted memory card
-2014-05-06 13:14:38,605 - INFO # dread                Reads the specified bytes from inserted memory card
-2014-05-06 13:14:38,610 - INFO # dget_ssize           Get the sector size of inserted memory card
-2014-05-06 13:14:38,616 - INFO # dget_scount          Get the sector count of inserted memory card
-2014-05-06 13:14:38,622 - INFO # dget_bsize           Get the block size of inserted memory card
-2014-05-06 13:14:38,625 - INFO # mersenne_init        initializes the PRNG
-2014-05-06 13:14:38,630 - INFO # mersenne_get         returns 32 bit of pseudo randomness
-2015-03-09 21:09:52,124 - INFO # rtc                  control RTC peripheral interface.
-```
-
-Running the `ps` command on an msba2:
-
-```
-2014-05-09 17:38:33,388 - INFO # > ps
-2014-05-09 17:38:33,394 - INFO #    pid | name                 | state    Q | pri | stack ( used) location
-2014-05-09 17:38:33,401 - INFO #      0 | idle                 | pending  Q |  31 |   160 (  148) 0x40000014
-2014-05-09 17:38:33,407 - INFO #      1 | main                 | running  Q |  15 |  2560 (  848) 0x400000b4
-2014-05-09 17:38:33,414 - INFO #      2 | uart0                | bl rx    _ |  14 |   512 (  296) 0x40000ce0
-2014-05-09 17:38:33,420 - INFO #      3 | radio                | bl rx    _ |  13 |   512 (  188) 0x40001a74
-2014-05-09 17:38:33,427 - INFO #      4 | Transceiver          | bl rx    _ |  12 |   512 (  300) 0x40001f98
-2014-05-09 17:38:33,431 - INFO #        | SUM                  |            |     |  4256
-```
-
-RIOT specific
-=============
-
-The `id` command sets or gets the node's id. It can be used to
-identify a node. Boards that support the `config` module will write
-the id to a persistent memory location so the node keeps it across
-reboots.
-
-The `ps` command is used to analyze the thread's state and memory
-status.
-
-
-Networking
+The current error and Work status 
 ==========
 
-The default application does not include any upper network layers, but
-you can use the transceiver directly to communicate with the nodes
-neighbourhood.
+-Used the -fPIC flag while creating object files.
+-Removed the static flag , changing it to shared is causing problem.
+-Created a new linker script ( simple version ), which causes some issues in startup code ( See below )
+-Not able to utilize the -R flag of ld. Problem in adding the flag to the linker script.
+-Had some issues about the use of archived libraries.
 
-The application comes with a thread that prints out any packets the
-node receives automatically.  The `monitor` command can be used to
-change this to only printing packets addressed for this node.  Use
-`monitor 0` to disable monitoring and `monitor 1` to reenable it.
+Creating a default(new) linker script causes the symbols used in previous
+linker script not getting used anymore. This causes undefined symbol references
+in startup code.
 
-`txtsnd`  can be used to send network packets using the boards default
-transceiver.  Use `txtsnd 0 hello world` to broadcast the string
-`hello world`.  Type `txtsnd 42 hello forty-two` to send a message to
-the node with network address 42.
 
-The nodes address can be configured using `addr`.  Call `addr` without
-a parameter to see the current address, or `addr 42` to set it to 42.
-The `chan` and `pan` (where available) commands can be used likewise
-to set channel and personal area network identifier respectively.
+Here are the errors currently faced --
+```
+command -v arm-none-eabi-gcc >/dev/null 2>&1 || \
+        { /bin/echo -e \
+        '\033[1;31m Compiler arm-none-eabi-gcc is required but not found in PATH.  Aborting.\033[0m'; \
+        exit 1; }
+Building application "led" for "samr21-xpro" with MCU "samd21".
+
+DIRS="" "make" -C /home/kushal/code/riot/RIOT/examples/led -f /home/kushal/code/riot/RIOT/Makefile.application
+make[1]: Entering directory '/home/kushal/code/riot/RIOT/examples/led'
+"make" -C /home/kushal/code/riot/RIOT/boards/samr21-xpro
+"make" -C /home/kushal/code/riot/RIOT/core
+make[2]: Entering directory '/home/kushal/code/riot/RIOT/core'
+make[2]: Leaving directory '/home/kushal/code/riot/RIOT/core'
+"make" -C /home/kushal/code/riot/RIOT/cpu/samd21
+make[2]: Entering directory '/home/kushal/code/riot/RIOT/cpu/samd21'
+"make" -C /home/kushal/code/riot/RIOT/cpu/cortexm_common
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/cpu/cortexm_common'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/cpu/cortexm_common'
+"make" -C /home/kushal/code/riot/RIOT/cpu/samd21/periph
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/cpu/samd21/periph'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/cpu/samd21/periph'
+make[2]: Leaving directory '/home/kushal/code/riot/RIOT/cpu/samd21'
+"make" -C /home/kushal/code/riot/RIOT/drivers
+make[2]: Entering directory '/home/kushal/code/riot/RIOT/drivers'
+"make" -C /home/kushal/code/riot/RIOT/drivers/at86rf231
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/drivers/at86rf231'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/drivers/at86rf231'
+"make" -C /home/kushal/code/riot/RIOT/drivers/netdev/802154
+"make" -C /home/kushal/code/riot/RIOT/drivers/netdev/base
+make[2]: Leaving directory '/home/kushal/code/riot/RIOT/drivers'
+"make" -C /home/kushal/code/riot/RIOT/sys
+make[2]: Entering directory '/home/kushal/code/riot/RIOT/sys'
+"make" -C /home/kushal/code/riot/RIOT/sys/auto_init
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/auto_init'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/auto_init'
+"make" -C /home/kushal/code/riot/RIOT/sys/compat/hwtimer
+"make" -C /home/kushal/code/riot/RIOT/sys/net/link_layer/ieee802154
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/net/link_layer/ieee802154'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/net/link_layer/ieee802154'
+"make" -C /home/kushal/code/riot/RIOT/sys/newlib
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/newlib'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/newlib'
+"make" -C /home/kushal/code/riot/RIOT/sys/posix
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/posix'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/posix'
+"make" -C /home/kushal/code/riot/RIOT/sys/ps
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/ps'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/ps'
+"make" -C /home/kushal/code/riot/RIOT/sys/shell
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/shell'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/shell'
+"make" -C /home/kushal/code/riot/RIOT/sys/shell/commands
+"make" -C /home/kushal/code/riot/RIOT/sys/timex
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/timex'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/timex'
+"make" -C /home/kushal/code/riot/RIOT/sys/transceiver
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/transceiver'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/transceiver'
+"make" -C /home/kushal/code/riot/RIOT/sys/uart0
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/uart0'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/uart0'
+"make" -C /home/kushal/code/riot/RIOT/sys/vtimer
+make[3]: Entering directory '/home/kushal/code/riot/RIOT/sys/vtimer'
+make[3]: Leaving directory '/home/kushal/code/riot/RIOT/sys/vtimer'
+make[2]: Leaving directory '/home/kushal/code/riot/RIOT/sys'
+make[1]: Leaving directory '/home/kushal/code/riot/RIOT/examples/led'
+arm-none-eabi-gcc /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/newlib/syscalls.o /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/cpu/startup.o -o /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/led.elf -Wl,--start-group /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/at86rf231.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/auto_init.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/core.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/cortexm_common.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/cpu.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/hwtimer_compat.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/ieee802154.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/netdev_802154.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/netdev_base.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/periph.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/posix.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/ps.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/shell.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/shell_commands.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/sys.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/timex.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/transceiver.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/uart0.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/vtimer.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/samr21-xpro_base.a /home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/led.a  -lm -Wl,--end-group  -Wl,-Map=/home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/led.map -L/home/kushal/code/riot/RIOT/cpu/samd21/ldscripts -L/home/kushal/code/riot/RIOT/cpu/cortexm_common/ldscripts -T/home/kushal/code/riot/RIOT/cpu/samd21/ldscripts/samr21g18a.ld -Wl,--fatal-warnings  -mcpu=cortex-m0plus -mlittle-endian -mthumb -mfloat-abi=soft -mno-thumb-interwork -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration -lgcc -nostartfiles -specs=nano.specs -lc -lnosys
+/home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/newlib/syscalls.o: In function `_sbrk_r':
+/home/kushal/code/riot/RIOT/sys/newlib/syscalls.c:139: undefined reference to `_eheap'
+/home/kushal/code/riot/RIOT/sys/newlib/syscalls.c:139: undefined reference to `_sheap'
+/home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/newlib/syscalls.o:(.data.rel.heap_top+0x0): undefined reference to `_sheap'
+/home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/cpu/startup.o: In function `reset_handler':
+/home/kushal/code/riot/RIOT/cpu/samd21/startup.c:76: undefined reference to `_srelocate'
+/home/kushal/code/riot/RIOT/cpu/samd21/startup.c:76: undefined reference to `_erelocate'
+/home/kushal/code/riot/RIOT/cpu/samd21/startup.c:76: undefined reference to `_etext'
+/home/kushal/code/riot/RIOT/cpu/samd21/startup.c:76: undefined reference to `_szero'
+/home/kushal/code/riot/RIOT/cpu/samd21/startup.c:76: undefined reference to `_ezero'
+/home/kushal/code/riot/RIOT/examples/led/bin/samr21-xpro/cpu/startup.o:(.vectors+0x0): undefined reference to `_estack'
+collect2: error: ld returned 1 exit status
+/home/kushal/code/riot/RIOT/examples/led/../../Makefile.include:186: recipe for target 'all' failed
+make: *** [all] Error 1
+
+``` 
+-- Suggestions ?
+IRC - kushalsingh007
