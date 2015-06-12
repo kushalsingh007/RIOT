@@ -16,13 +16,19 @@ make flash
 Trying out
 ===========
 In order to build use the command 
-sudo make  
+```
+sudo make
+``` 
 
 In order to build and directly flash use the command  
+```
 sudo make flash  
+```
 
 In order to enter debug mode  
+```
 sudo make debug 
+```
 
 Example output/Errors
 ==============

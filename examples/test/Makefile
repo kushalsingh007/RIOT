@@ -23,7 +23,7 @@ export BINDIR := $(abspath $(BINDIR))/
 export ELFFILE ?= $(BINDIR)$(APPLICATION).elf
 export HEXFILE ?= $(ELFFILE:.elf=.hex)
 
-# This has to be the absolute path to the linker script containing folder
+# This has to be the path to the linker script containing folder
 export LINKERBASE ?= $(RIOTBASE)/../../../linker
 export LINKERBASE := $(abspath $(LINKERBASE))
 
