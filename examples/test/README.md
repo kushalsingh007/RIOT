@@ -16,12 +16,17 @@ make flash
 Trying out
 ===========
 In order to build use the command 
-make or make all
-In order to build and flash use the command
-make flash
+sudo make  
+
+In order to build and directly flash use the command  
+sudo make flash  
+
+In order to enter debug mode  
+sudo make debug 
 
 Example output/Errors
 ==============
+Currently the error - Handler HardFaul ( double fault )
 ```
 Open On-Chip Debugger 0.10.0-dev-00001-g70a14db (2015-06-02-23:59)
 Licensed under GNU GPL v2
@@ -62,6 +67,8 @@ Linker Script
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 SEARCH_DIR(.)
+
+STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : 0x200; /* 512 byte */
 
 /* Section Definitions */
 SECTIONS

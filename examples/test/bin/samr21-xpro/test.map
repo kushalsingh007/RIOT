@@ -10,6 +10,7 @@ Name             Origin             Length             Attributes
 
 Linker script and memory map
 
+                0x0000000000000200                STACK_SIZE = DEFINED (STACK_SIZE)?STACK_SIZE:0x200
 
 .text           0x0000000000000000       0x54
  *(.text)
