@@ -1,18 +1,44 @@
 # name of the application
 APPLICATION = test
 
+# Current app directory
+APPDIR ?= $(CURDIR)
+APPDIR := $(abspath $(APPDIR))/
+
 # If no BOARD is found in the environment, use this default:
-BOARD ?= samr21-xpro
+export BOARD ?= samr21-xpro
 
 # This has to be the absolute path to the RIOT base directory:
-RIOTBASE ?= $(CURDIR)/../..
+export RIOTBASE ?= $(CURDIR)/../..
 
-RIOTBOARD ?= $(RIOTBASE)/boards
-RIOTBOARD := $(abspath $(RIOTBOARD))
+export RIOTBOARD ?= $(RIOTBASE)/boards
+export RIOTBOARD := $(abspath $(RIOTBOARD))
+
+export BINDIRBASE ?= $(APPDIR)/bin
+export BINDIRBASE := $(abspath $(BINDIRBASE))
+
+export BINDIR ?= $(BINDIRBASE)/$(BOARD)
+export BINDIR := $(abspath $(BINDIR))/
+
+export ELFFILE ?= $(BINDIR)$(APPLICATION).elf
+export HEXFILE ?= $(ELFFILE:.elf=.hex)
 
 # This has to be the absolute path to the linker script containing folder
-LINKERBASE ?= $(HOME)/linker
-LINKERBASE := $(abspath $(LINKERBASE))
+export LINKERBASE ?= $(RIOTBASE)/../../../linker
+export LINKERBASE := $(abspath $(LINKERBASE))
+
+# CPU Architecture used
+export CPU_ARCH = cortex-m0plus
+
+# Use TOOLCHAIN environment variable to select the toolchain to use.
+# Default: gnu
+TOOLCHAIN ?= gnu
+
+# Import all toolchain settings
+include $(RIOTBOARD)/Makefile.include.$(TOOLCHAIN)
+
+# Import all openocd configuration
+include $(RIOTBOARD)/Makefile.include.openocd
 
 all: bin
 
@@ -26,7 +52,19 @@ bin: test.elf
 	mv test.elf $(CURDIR)/bin/$(BOARD)/
 
 flash : all
-	sudo openocd -f $(RIOTBOARD)/$(BOARD)/dist/openocd.cfg -c "program $(CURDIR)/bin/samr21-xpro/test.hex; reset"
+	command -v $(FLASHER) >/dev/null 2>&1 || \
+		{ \
+		'Flash program $(FLASHER) not found. Aborting'; \
+		exit 1; }
+	$(FLASHER) $(FFLAGS)
+
+
+debug :
+	command -v $(DEBUGGER) >/dev/null 2>&1 || \
+		{ \
+		'Debug program $(DEBUGGER) not found. Aborting'; \
+	   	exit 1; }
+	$(DEBUGGER) $(DEBUGGER_FLAGS)
 
 test.elf : test.o
 	arm-none-eabi-ld -T $(LINKERBASE)/kcortexm_base.ld -Map=test.map test.o -o test.elf
@@ -38,9 +76,4 @@ test.o : test.c
 	arm-none-eabi-gcc --specs=nosys.specs  -c -ggdb -g3 -fPIC test.c
 
 clean:
-	rm $(CURDIR)/bin/$(BOARD)/test.o
-	rm $(CURDIR)/bin/$(BOARD)/test.bin
-	rm $(CURDIR)/bin/$(BOARD)/test.h
-	rm $(CURDIR)/bin/$(BOARD)/test.elf
-	rm $(CURDIR)/bin/$(BOARD)/test.map
-	rm $(CURDIR)/bin/$(BOARD)/test.hex
+	rm -f $(CURDIR)/bin/$(BOARD)/test.*
