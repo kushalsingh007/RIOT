@@ -18,14 +18,16 @@
  * @}
  */
 
-void test_function()
-{
-    volatile int x=1;
-    while(x);
-}
+void test_function(void);
 
 int main(void)
 {
     test_function();
     return 0;
+}
+
+void test_function(void)
+{
+        volatile int x=1;
+            while(x);
 }

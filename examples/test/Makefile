@@ -27,12 +27,51 @@ export HEXFILE ?= $(ELFFILE:.elf=.hex)
 export LINKERBASE ?= $(RIOTBASE)/../../../linker
 export LINKERBASE := $(abspath $(LINKERBASE))
 
+# define the cpu used by SAMR21 Xplained Pro board
+export CPU = samd21
+export CPU_MODEL = samr21g18a
+
 # CPU Architecture used
 export CPU_ARCH = cortex-m0plus
+
+# set default for CPU_MODEL
+export CPU_MODEL ?= $(CPU)
+
+# export the CPU model and architecture
+MODEL = $(shell echo $(CPU_MODEL) | tr 'a-z' 'A-Z')
+export CFLAGS += -DCPU_MODEL_$(MODEL)
+ARCH = $(shell echo $(CPU_ARCH) | tr 'a-z-' 'A-Z_')
+
+CFLAGS_FPU ?= -mfloat-abi=soft
+export MCPU ?= $(CPU_ARCH)
+
+# define build specific options
+export CFLAGS_CPU   = -mcpu=$(MCPU) -mlittle-endian -mthumb $(CFLAGS_FPU)
+ifneq (llvm,$(TOOLCHAIN))
+# Clang (observed with v3.7) does not understand  -mno-thumb-interwork, only add if
+# not building with LLVM
+export CFLAGS_CPU  += -mno-thumb-interwork
+endif
+
+export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration
+export CFLAGS_DBG   = -ggdb -g3
+export CFLAGS_OPT  ?= -Os
+
+export CFLAGS += $(CFLAGS_CPU) $(CFLAGS_STYLE) $(CFLAGS_DBG) $(CFLAGS_OPT)
+
+# Target triple for the build. Use arm-none-eabi if you are unsure.
+export TARGET_TRIPLE ?= arm-none-eabi
+
+# default toolchain prefix, defaults to target triple followed by a dash, you
+# will most likely not need to touch this.
+export PREFIX ?= $(if $(TARGET_TRIPLE),$(TARGET_TRIPLE)-)
 
 # Use TOOLCHAIN environment variable to select the toolchain to use.
 # Default: gnu
 TOOLCHAIN ?= gnu
+
+export GDBPREFIX = $(PREFIX)
+export DBG = $(GDBPREFIX)gdb
 
 # Import all toolchain settings
 include $(RIOTBOARD)/Makefile.include.$(TOOLCHAIN)
@@ -73,7 +112,7 @@ test.elf : test.o
 
 test.o : test.c
 	mkdir -p $(CURDIR)/bin/$(BOARD)
-	arm-none-eabi-gcc --specs=nosys.specs  -c -ggdb -g3 -fPIC test.c
+	arm-none-eabi-gcc $(CFLAGS) --specs=nosys.specs -c -fPIC test.c
 
 clean:
 	rm -f $(CURDIR)/bin/$(BOARD)/test.*
