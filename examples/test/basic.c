@@ -18,12 +18,21 @@
  * @}
  */
 
+#include <stdio.h>
 #include "test.h"
+
+typedef int (*f_ptr)(void);
+f_ptr ptr = (f_ptr) &test_bin[0];
+
+void my_test(void) __attribute__((used));
+void my_test(void) {
+    printf("test\n");
+}
 
 int main(void)
 {
-    void (*ptr)();
-    ptr=&test_bin;
-    ptr();
+    printf("Jumping to 0x%08x...\n", (unsigned)*ptr);
+    int res = ptr();
+    printf("res=%i\n", res);
     return 0;
 }
