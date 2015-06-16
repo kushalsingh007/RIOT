@@ -84,8 +84,8 @@ OUTPUT(test.elf elf32-littlearm)
 .debug_line     0x0000000000000000       0x37
  .debug_line    0x0000000000000000       0x37 test.o
 
-.debug_str      0x0000000000000000     0x253f
- .debug_str     0x0000000000000000     0x253f test.o
+.debug_str      0x0000000000000000     0x2544
+ .debug_str     0x0000000000000000     0x2544 test.o
 
 .comment        0x0000000000000000       0x1d
  .comment       0x0000000000000000       0x1d test.o
