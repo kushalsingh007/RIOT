@@ -18,11 +18,11 @@
  * @}
  */
 
-int main(void)
-{
-    return 1;
-}
 
 int test(void) {
+
+    volatile int x=1;
+    while(x);
+
     return 1;
 }
