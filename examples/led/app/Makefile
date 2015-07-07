@@ -45,20 +45,6 @@ ARCH = $(shell echo $(CPU_ARCH) | tr 'a-z-' 'A-Z_')
 CFLAGS_FPU ?= -mfloat-abi=soft
 export MCPU ?= $(CPU_ARCH)
 
-# define build specific options
-export CFLAGS_CPU   = -mcpu=$(MCPU) -mlittle-endian -mthumb $(CFLAGS_FPU)
-ifneq (llvm,$(TOOLCHAIN))
-# Clang (observed with v3.7) does not understand  -mno-thumb-interwork, only add if
-# not building with LLVM
-export CFLAGS_CPU  += -mno-thumb-interwork
-endif
-
-export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration
-export CFLAGS_DBG   = -ggdb -g3
-export CFLAGS_OPT  ?= -Os
-
-export CFLAGS += $(CFLAGS_CPU) $(CFLAGS_STYLE) $(CFLAGS_DBG) $(CFLAGS_OPT)
-
 # Target triple for the build. Use arm-none-eabi if you are unsure.
 export TARGET_TRIPLE ?= arm-none-eabi
 
@@ -80,13 +66,15 @@ all: bin
 
 bin: test.elf
 	arm-none-eabi-objcopy -O binary test.elf test.bin
-	xxd -i test.bin > test.h
+	arm-none-eabi-strip test.elf
+	xxd -i test.elf > test.h
+	arm-none-eabi-size test.elf
 
 test.elf : test.o
 	arm-none-eabi-ld -T app.ld -Map=test.map test.o -o test.elf
 
 test.o : test.c
-	arm-none-eabi-gcc $(CFLAGS) --specs=nosys.specs -c -I../../../cpu/cortexm_common/include -I../../../cpu/samd21/include -I../../../boards/samr21-xpro/include -I../../../core/include -fPIC test.c
+	arm-none-eabi-gcc $(CFLAGS) --specs=nosys.specs -c -I$(RIOTBASE)/cpu/cortexm_common/include -I$(RIOTBASE)/cpu/samd21/include -I$(RIOTBOARD)/$(BOARD)/include -I$(RIOTBASE)/core/include -fPIC test.c
 
 clean:
 	rm -f test.bin test.h test.elf test.o
