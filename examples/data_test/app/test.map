@@ -1,0 +1,108 @@
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 test.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000000054                . = (0x0 + SIZEOF_HEADERS)
+
+.text           0x0000000000000054        0x0
+ *(.text)
+ .text          0x0000000000000054        0x0 test.o
+
+.glue_7         0x0000000000000054        0x0
+ .glue_7        0x0000000000000054        0x0 linker stubs
+
+.glue_7t        0x0000000000000054        0x0
+ .glue_7t       0x0000000000000054        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000000054        0x0
+ .vfp11_veneer  0x0000000000000054        0x0 linker stubs
+
+.v4_bx          0x0000000000000054        0x0
+ .v4_bx         0x0000000000000054        0x0 linker stubs
+
+.text.test      0x0000000000000054       0x18
+ .text.test     0x0000000000000054       0x18 test.o
+                0x0000000000000054                test
+
+.iplt           0x000000000000006c        0x0
+ .iplt          0x000000000000006c        0x0 test.o
+
+.rel.dyn        0x000000000000006c        0x0
+ .rel.iplt      0x000000000000006c        0x0 test.o
+ .rel.got       0x000000000000006c        0x0 test.o
+
+.data           0x000000000000006c        0x0
+ *(.data)
+ .data          0x000000000000006c        0x0 test.o
+
+.data.x         0x000000000000006c        0x4
+ .data.x        0x000000000000006c        0x4 test.o
+                0x000000000000006c                x
+
+.data.y         0x0000000000000070        0x4
+ .data.y        0x0000000000000070        0x4 test.o
+                0x0000000000000070                y
+
+.data.a         0x0000000000000074        0x4
+ .data.a        0x0000000000000074        0x4 test.o
+                0x0000000000000074                a
+
+.igot.plt       0x0000000000000078        0x0
+ .igot.plt      0x0000000000000078        0x0 test.o
+
+.got            0x0000000000000078        0x4
+ .got           0x0000000000000078        0x4 test.o
+
+.got.plt        0x000000000000007c        0xc
+ .got.plt       0x000000000000007c        0xc test.o
+                0x000000000000007c                _GLOBAL_OFFSET_TABLE_
+
+.bss            0x0000000000000088        0x0
+ *(.bss)
+ .bss           0x0000000000000088        0x0 test.o
+LOAD test.o
+OUTPUT(test.elf elf32-littlearm)
+
+.debug_info     0x0000000000000000       0x7f
+ .debug_info    0x0000000000000000       0x7f test.o
+
+.debug_abbrev   0x0000000000000000       0x5f
+ .debug_abbrev  0x0000000000000000       0x5f test.o
+
+.debug_aranges  0x0000000000000000       0x20
+ .debug_aranges
+                0x0000000000000000       0x20 test.o
+
+.debug_ranges   0x0000000000000000       0x10
+ .debug_ranges  0x0000000000000000       0x10 test.o
+
+.debug_macro    0x0000000000000000      0x8bb
+ .debug_macro   0x0000000000000000       0x11 test.o
+ .debug_macro   0x0000000000000011      0x8aa test.o
+
+.debug_line     0x0000000000000000       0x42
+ .debug_line    0x0000000000000000       0x42 test.o
+
+.debug_str      0x0000000000000000     0x2547
+ .debug_str     0x0000000000000000     0x2547 test.o
+                                       0x2554 (size before relaxing)
+
+.comment        0x0000000000000000       0x1d
+ .comment       0x0000000000000000       0x1d test.o
+                                         0x1e (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x32 test.o
+
+.debug_frame    0x0000000000000000       0x20
+ .debug_frame   0x0000000000000000       0x20 test.o
