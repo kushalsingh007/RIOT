@@ -23,13 +23,6 @@
 int test(void) {
 
     LED_RED_ON;
-    /*Switch the LED on and wait*/
-    volatile int x;
-
-    for(x=0;x<100000;x++);
-
-    LED_RED_OFF;
-    /*Switch the LED off and return*/
 
     return 1;
 }

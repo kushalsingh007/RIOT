@@ -22,7 +22,7 @@
 #include "test.h"
 
 typedef int (*f_ptr)(void);
-f_ptr ptr = (f_ptr) &test_bin+1;
+f_ptr ptr = (f_ptr) &test_elf+85;
 
 void my_test(void) __attribute__((used));
 void my_test(void) {
