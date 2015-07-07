@@ -1,0 +1,2 @@
+my_test = 0xffffffffffffe965;
+lifo_empty = 0xffffffffffffe177;
