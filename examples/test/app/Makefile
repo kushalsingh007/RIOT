@@ -50,7 +50,7 @@ export CFLAGS_CPU   = -mcpu=$(MCPU) -mlittle-endian -mthumb $(CFLAGS_FPU)
 ifneq (llvm,$(TOOLCHAIN))
 # Clang (observed with v3.7) does not understand  -mno-thumb-interwork, only add if
 # not building with LLVM
-export CFLAGS_CPU  += -mno-thumb-interwork
+export CFLAGS_CPU  += -mthumb-interwork
 endif
 
 export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration
@@ -80,13 +80,14 @@ all: bin
 
 bin: test.elf
 	arm-none-eabi-objcopy -O binary test.elf test.bin
-	xxd -i test.bin > test.h
+	arm-none-eabi-strip test.elf
+	xxd -i test.elf > test.h
 
 test.elf : test.o
 	arm-none-eabi-ld -T app.ld -Map=test.map test.o -o test.elf
 
 test.o : test.c
-	arm-none-eabi-gcc $(CFLAGS) --specs=nosys.specs -c -fPIC test.c
+	arm-none-eabi-gcc -Wall $(CFLAGS) --specs=nosys.specs -c -fPIC test.c
 
 clean:
 	rm -f test.bin test.h test.elf test.o
