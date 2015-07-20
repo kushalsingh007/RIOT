@@ -53,7 +53,7 @@ ifneq (llvm,$(TOOLCHAIN))
 export CFLAGS_CPU  += -mthumb-interwork
 endif
 
-export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration
+export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration -shared
 export CFLAGS_DBG   = -ggdb -g3
 export CFLAGS_OPT  ?= -Os
 
@@ -80,6 +80,7 @@ all: bin
 
 bin: test.elf
 	arm-none-eabi-objcopy -O binary test.elf test.bin
+	cp test.elf test-unstripped.elf
 	arm-none-eabi-strip test.elf
 	xxd -i test.elf > test.h
 

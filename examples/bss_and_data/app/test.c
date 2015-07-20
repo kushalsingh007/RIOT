@@ -20,12 +20,13 @@
 
 volatile unsigned int a=3735928559;
 volatile unsigned int x;
+volatile unsigned int k=0;
 volatile unsigned int y=3735928559;
 
 
 int test(void) {
 
     x=1;
-
+    k=1;
     return 1;
 }
