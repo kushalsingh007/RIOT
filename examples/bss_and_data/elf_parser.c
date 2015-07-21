@@ -5,14 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+void list_shdr_table_entries(FILE *, Elf32_Ehdr);
+void list_symbol_info(FILE *, Elf32_Ehdr);
+void print_symbol_info(Elf32_Half);
+void process_symtab(FILE *, Elf32_Ehdr, int);
+void print_rel_type(Elf32_Word);
+void print_sym_name(FILE *, Elf32_Ehdr, int, int);
+void process_rel(FILE *, Elf32_Ehdr, int );
+void print_break(void);
+
 char **section_name;
 int count;
 
-void print_break(void)
-{
-   printf("\n\n-----------------------------\n\n");
-}
-
+/* Print all the Section Table Header entries */
 void list_shdr_table_entries(FILE *ElfFile, Elf32_Ehdr elfHeader)
 {
     Elf32_Shdr sectionHeader;
@@ -20,7 +25,7 @@ void list_shdr_table_entries(FILE *ElfFile, Elf32_Ehdr elfHeader)
 
     /* Jump to String table index of Section Header Table (w.r.t the start of the file) */
     fseek(ElfFile, elfHeader.e_shoff + elfHeader.e_shstrndx * elfHeader.e_shentsize, SEEK_SET);
-    
+
     /* Reading Section Header for String Table and adding the contents in stringTable array */
     fread(&sectionHeader, 1, sizeof(sectionHeader), ElfFile);
     fseek(ElfFile, sectionHeader.sh_offset, SEEK_SET);
@@ -37,20 +42,40 @@ void list_shdr_table_entries(FILE *ElfFile, Elf32_Ehdr elfHeader)
 
         section_name[count] = malloc(sizeof(char)*(strlen(stringTable + sectionHeader.sh_name)+1));
         strcpy(section_name[count++],stringTable + sectionHeader.sh_name);
-        
+
         if(index<10)
             printf("[ %d] %s\n",index, stringTable + sectionHeader.sh_name);
-        else 
+        else
             printf("[%d] %s\n",index, stringTable + sectionHeader.sh_name);
     }
 
     print_break();
     free(stringTable);
-  
+
 }
 
+/* Prints the symbol table and the relocation related info */
+void list_symbol_info(FILE *ElfFile, Elf32_Ehdr elfHeader)
+{
+    Elf32_Shdr sectionHeader;
+
+    /* Finding index of position of symtab */
+    for(int index = 0; index < elfHeader.e_shnum; index++)
+    {
+        fseek(ElfFile, elfHeader.e_shoff + index * elfHeader.e_shentsize, SEEK_SET);
+        fread(&sectionHeader, 1, sizeof(sectionHeader), ElfFile);
+
+        if(sectionHeader.sh_type == SHT_SYMTAB)
+            process_symtab(ElfFile, elfHeader, index);
+        else if (sectionHeader.sh_type == SHT_REL)
+            process_rel(ElfFile, elfHeader, index);
+    }
+
+}
+
+/* Prints the section associated with the symbol */
 void print_symbol_info(Elf32_Half shndx)
-{   
+{
     if( shndx == SHN_UNDEF )
         printf(" -  Undefined Symbol\n");
     else if( shndx == SHN_COMMON)
@@ -61,6 +86,7 @@ void print_symbol_info(Elf32_Half shndx)
         printf(" -  %s\n",section_name[shndx]);
 }
 
+/* Process the symbol table to give symbol name and it's section type */
 void process_symtab(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
 {
     char *stringTable = NULL;
@@ -71,7 +97,7 @@ void process_symtab(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
     /* Jumping to the symtab entry directly */
     fseek(ElfFile, elfHeader.e_shoff + index * elfHeader.e_shentsize, SEEK_SET);
     fread(&sectionHeader, 1, sizeof(sectionHeader), ElfFile);
-    
+
     /* Reading from the String Table linked to it */
     fseek(ElfFile, elfHeader.e_shoff + sectionHeader.sh_link * elfHeader.e_shentsize, SEEK_SET);
     fread(&strtabHeader, 1, sizeof(strtabHeader), ElfFile);
@@ -103,18 +129,21 @@ void process_symtab(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
     free(stringTable);
 
 }
+
+/* Print the type of relocation (Currently a subset of all possible) */
 void print_rel_type(Elf32_Word r_info)
 {
-    switch(ELF32_R_TYPE(r_info)) {
-		case R_386_NONE:
-			printf("R_386_NONE No relocation");
-			break;
-		case R_386_32:
-			printf("R_386_32 (Symbol + Offset)");
-			break;
-		case R_386_PC32:
-		    printf("R_386_PC32 (Symbol + Offset - Section Offset)");
-			break;
+    switch(ELF32_R_TYPE(r_info))
+    {
+        case R_386_NONE:
+            printf("R_386_NONE No relocation");
+            break;
+        case R_386_32:
+            printf("R_386_32 (Symbol + Offset)");
+            break;
+        case R_386_PC32:
+            printf("R_386_PC32 (Symbol + Offset - Section Offset)");
+            break;
         case R_386_GOT32:
             printf("R_386_GOT32 (G + A - P)");
             break;
@@ -130,21 +159,22 @@ void print_rel_type(Elf32_Word r_info)
         case R_386_JMP_SLOT:
             printf("R_386_JMP_SLOT (S)");
             break;
-        case R_386_RELATIVE: 
+        case R_386_RELATIVE:
             printf("R_386_RELATIVE (B + A)");
             break;
-        case R_386_GOTOFF: 
+        case R_386_GOTOFF:
             printf("R_386_GOTOFF (S + A - GOT)");
             break;
         case R_386_GOTPC:
             printf("R_386_GOTOFF (GOT + A - P)");
             break;
-		default:
-			printf("Unlisted/Unknown/Unsupported Relocation Type (%d)", ELF32_R_TYPE(r_info));
+        default:
+            printf("Unlisted/Unknown/Unsupported Relocation Type (%d)", ELF32_R_TYPE(r_info));
 	}
     printf("  \n");
 }
 
+/* Print the value and name of the symbol in the symtab table */
 void print_sym_name(FILE *ElfFile, Elf32_Ehdr elfHeader, int symtab_index, int index)
 {
     Elf32_Shdr sectionHeader,strtabHeader;
@@ -172,6 +202,8 @@ void print_sym_name(FILE *ElfFile, Elf32_Ehdr elfHeader, int symtab_index, int i
 
     free(stringTable);
 }
+
+/* Print the symbol related relocation info from the relocation table (currently .rel only) */
 void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
 {
     Elf32_Shdr sectionHeader;
@@ -182,7 +214,7 @@ void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
     /* Jumping to the .rel table entry directly */
     fseek(ElfFile, elfHeader.e_shoff + index * elfHeader.e_shentsize, SEEK_SET);
     fread(&sectionHeader, 1, sizeof(sectionHeader), ElfFile);
-    
+
     /* Reading the index of the Symbol Table linked to it */
     symtab_index = sectionHeader.sh_link;
 
@@ -197,7 +229,6 @@ void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
     {
         fread(&rel_entry, 1, sizeof(rel_entry), ElfFile);
         fgetpos(ElfFile, &current_pos);
-        
         if(i < 10)
             printf("[ %d] -  %" PRIx32 "  %" PRIx32 "   ", i, rel_entry.r_offset,  rel_entry.r_info);
         else
@@ -211,42 +242,28 @@ void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
     print_break();
 }
 
-
-
-void list_symbol_info(FILE *ElfFile, Elf32_Ehdr elfHeader)
+void print_break(void)
 {
-    Elf32_Shdr sectionHeader;
-
-    /* Finding index of position of symtab */
-    for(int index = 0; index < elfHeader.e_shnum; index++)
-    {
-        fseek(ElfFile, elfHeader.e_shoff + index * elfHeader.e_shentsize, SEEK_SET);
-        fread(&sectionHeader, 1, sizeof(sectionHeader), ElfFile);
-
-        if(sectionHeader.sh_type == SHT_SYMTAB)
-            process_symtab(ElfFile, elfHeader, index);
-        else if (sectionHeader.sh_type == SHT_REL)
-            process_rel(ElfFile, elfHeader, index);
-    }
-
+   printf("\n\n-----------------------------\n\n");
 }
 
-int main(void)
+int main(int argc, char** argv)
 {
     FILE *ElfFile = NULL;
     Elf32_Ehdr elfHeader;
 
-    /* Open the elf file for reading */
     ElfFile = fopen("/home/kushal/mind/RIOT/tests/struct_tm_utility/bin/native/struct_tm_utility.elf","rb");
 
-        if(ElfFile == NULL)
-    {   
+    if(ElfFile == NULL)
+    {
         printf("Error : Unable to open the file\n");
-        exit(1);
+        return 1;;
     }
 
-    /* Read the elf header from Elf File and Jump to Section Header Table */
+    /* Read the Elf header from Elf File */
     fread(&elfHeader, 1, sizeof(elfHeader), ElfFile);
+
+    /* Initializing array for storing section names */
     section_name = malloc(elfHeader.e_shnum * sizeof(char *));
 
     /* Process the symbol table and symtab */
