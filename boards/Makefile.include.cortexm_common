@@ -32,7 +32,7 @@ ifneq (llvm,$(TOOLCHAIN))
 export CFLAGS_CPU  += -mthumb-interwork
 endif
 export CFLAGS_STYLE = -std=gnu99 -Wall -Wstrict-prototypes -Werror=implicit-function-declaration
-export CFLAGS_LINK  = -ffunction-sections -fdata-sections -fno-builtin -fshort-enums
+export CFLAGS_LINK  = -ffunction-sections -fdata-sections -fno-builtin -fshort-enums -shared
 export CFLAGS_DBG   = -ggdb -g3
 export CFLAGS_OPT  ?= -Os
 

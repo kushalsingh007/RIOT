@@ -18,11 +18,11 @@
  * @}
  */
 
-volatile unsigned int a=3735928559;
+volatile unsigned int a=64;
 volatile unsigned int x;
 volatile unsigned int k=0;
 volatile unsigned int y=3735928559;
-
+volatile unsigned int alpha_beta=3735928559;
 
 int test(void) {
 
