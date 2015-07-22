@@ -1,9 +1,10 @@
-#include <elf.h>
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "elf.h"
 
 void list_shdr_table_entries(FILE *, Elf32_Ehdr);
 void list_symbol_info(FILE *, Elf32_Ehdr);
@@ -77,13 +78,13 @@ void list_symbol_info(FILE *ElfFile, Elf32_Ehdr elfHeader)
 void print_symbol_info(Elf32_Half shndx)
 {
     if( shndx == SHN_UNDEF )
-        printf(" -  Undefined Symbol\n");
+        printf(" -  Undefined Symbol  ");
     else if( shndx == SHN_COMMON)
-        printf(" -  COMMON (Currently Unallocated)\n");
+        printf(" -  COMMON (Currently Unallocated)  ");
     else if (shndx == SHN_ABS)
-        printf(" -  ABS (No relocation)\n");
+        printf(" -  ABS (No relocation)  ");
     else
-        printf(" -  %s\n",section_name[shndx]);
+        printf(" -  %s  ",section_name[shndx]);
 }
 
 /* Process the symbol table to give symbol name and it's section type */
@@ -123,6 +124,7 @@ void process_symtab(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
             printf("(%d) - %s ", i, stringTable + symbol_symtab.st_name);
 
         print_symbol_info(symbol_symtab.st_shndx);
+        printf("\n");
     }
 
     print_break();
@@ -170,7 +172,7 @@ void print_rel_type(Elf32_Word r_info)
             break;
         default:
             printf("Unlisted/Unknown/Unsupported Relocation Type (%d)", ELF32_R_TYPE(r_info));
-	}
+    }
     printf("  \n");
 }
 
@@ -198,7 +200,18 @@ void print_sym_name(FILE *ElfFile, Elf32_Ehdr elfHeader, int symtab_index, int i
     for(int i=0; i <= index; i++)
      fread(&symbol_symtab, 1, sizeof(symbol_symtab), ElfFile);
 
-    printf("  %d  %s  ",symbol_symtab.st_value, stringTable + symbol_symtab.st_name);
+    //printf("  %d  %s  ",symbol_symtab.st_value, stringTable + symbol_symtab.st_name);
+    printf("  %d  %d  ",symbol_symtab.st_value, symbol_symtab.st_name);
+
+    if( symbol_symtab.st_shndx == SHN_UNDEF )
+        printf(" -  Undefined Symbol  ");
+    else if( symbol_symtab.st_shndx == SHN_COMMON)
+        printf(" -  COMMON (Currently Unallocated)  ");
+    else if (symbol_symtab.st_shndx == SHN_ABS)
+        printf(" -  ABS (No relocation)  ");
+    else
+        printf(" - ** %d ** ",symbol_symtab.st_shndx);
+
 
     free(stringTable);
 }
@@ -223,7 +236,7 @@ void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
 
     num_entries = sectionHeader.sh_size/sizeof(Elf32_Rel);
     printf("Printing Relocation entries\n");
-    printf("Idx   Offset   Info    Value   Name   Type\n");
+    printf("Idx   Offset   Info    Value   Name   Sec.Indx    Type\n");
 
     for(int i = 0; i < num_entries ; i++)
     {
@@ -234,7 +247,11 @@ void process_rel(FILE *ElfFile, Elf32_Ehdr elfHeader, int index)
         else
             printf("[%d] -  %" PRIx32 "  %" PRIx32 "   ", i, rel_entry.r_offset,  rel_entry.r_info);
 
-        print_sym_name(ElfFile, elfHeader, symtab_index, ELF32_R_SYM(rel_entry.r_info));
+        /* If symbol table index in null/not defined then take symbol value == 0*/
+        if(ELF32_R_SYM(rel_entry.r_info) == STN_UNDEF)
+            printf(" 0   ");
+        else
+            print_sym_name(ElfFile, elfHeader, symtab_index, ELF32_R_SYM(rel_entry.r_info));
         print_rel_type(ELF32_R_TYPE(rel_entry.r_info));
         fsetpos(ElfFile, &current_pos);
     }
@@ -252,7 +269,9 @@ int main(int argc, char** argv)
     FILE *ElfFile = NULL;
     Elf32_Ehdr elfHeader;
 
-    ElfFile = fopen("/home/kushal/mind/RIOT/tests/struct_tm_utility/bin/native/struct_tm_utility.elf","rb");
+    //ElfFile = fopen("/home/kushal/mind/RIOT/tests/struct_tm_utility/bin/native/struct_tm_utility.elf","rb");
+    ElfFile = fopen("./bin/samr21-xpro/app-test.elf","rb");
+    //ElfFile = fopen("./dragon","rb");
 
     if(ElfFile == NULL)
     {
@@ -268,7 +287,7 @@ int main(int argc, char** argv)
 
     /* Process the symbol table and symtab */
     list_shdr_table_entries(ElfFile, elfHeader);
-    list_symbol_info(ElfFile, elfHeader); 
+    list_symbol_info(ElfFile, elfHeader);
 
     for(int i =0;i<count;i++)
         free(section_name[i]);
