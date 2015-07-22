@@ -1,0 +1,226 @@
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000000054                . = (0x0 + SIZEOF_HEADERS)
+
+.text           0x0000000000000054        0x0
+ *(.text)
+ .text          0x0000000000000054        0x0 test.o
+
+.glue_7         0x0000000000000054        0x0
+ .glue_7        0x0000000000000054        0x0 linker stubs
+
+.glue_7t        0x0000000000000054        0x0
+ .glue_7t       0x0000000000000054        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000000054        0x0
+ .vfp11_veneer  0x0000000000000054        0x0 linker stubs
+
+.v4_bx          0x0000000000000054        0x0
+ .v4_bx         0x0000000000000054        0x0 linker stubs
+
+.text.test      0x0000000000000054       0x10
+ .text.test     0x0000000000000054       0x10 test.o
+                0x0000000000000054                test
+
+.iplt           0x0000000000000064        0x0
+ .iplt          0x0000000000000064        0x0 test.o
+
+.rel.dyn        0x0000000000000064        0x0
+ .rel.iplt      0x0000000000000064        0x0 test.o
+
+.data           0x0000000000000064        0x0
+ *(.data)
+ .data          0x0000000000000064        0x0 test.o
+
+.igot.plt       0x0000000000000064        0x0
+ .igot.plt      0x0000000000000064        0x0 test.o
+
+.bss            0x0000000000000064        0x0
+ *(.bss)
+ .bss           0x0000000000000064        0x0 test.o
+LOAD test.o
+OUTPUT(test.elf elf32-littlearm)
+
+.debug_info     0x0000000000000000     0x20b6
+ .debug_info    0x0000000000000000     0x20b6 test.o
+
+.debug_abbrev   0x0000000000000000      0x191
+ .debug_abbrev  0x0000000000000000      0x191 test.o
+
+.debug_aranges  0x0000000000000000       0x20
+ .debug_aranges
+                0x0000000000000000       0x20 test.o
+
+.debug_ranges   0x0000000000000000       0x10
+ .debug_ranges  0x0000000000000000       0x10 test.o
+
+.debug_macro    0x0000000000000000     0xfa90
+ .debug_macro   0x0000000000000000      0x2eb test.o
+ .debug_macro   0x00000000000002eb      0x8aa test.o
+ .debug_macro   0x0000000000000b95       0x22 test.o
+ .debug_macro   0x0000000000000bb7       0x44 test.o
+ .debug_macro   0x0000000000000bfb       0x1c test.o
+ .debug_macro   0x0000000000000c17       0x22 test.o
+ .debug_macro   0x0000000000000c39      0x1df test.o
+ .debug_macro   0x0000000000000e18       0x3a test.o
+ .debug_macro   0x0000000000000e52       0x3a test.o
+ .debug_macro   0x0000000000000e8c       0x26 test.o
+ .debug_macro   0x0000000000000eb2      0x306 test.o
+ .debug_macro   0x00000000000011b8      0x682 test.o
+ .debug_macro   0x000000000000183a      0x8c2 test.o
+ .debug_macro   0x00000000000020fc      0xc6b test.o
+ .debug_macro   0x0000000000002d67      0x4ce test.o
+ .debug_macro   0x0000000000003235      0x9fc test.o
+ .debug_macro   0x0000000000003c31      0x82f test.o
+ .debug_macro   0x0000000000004460      0x25d test.o
+ .debug_macro   0x00000000000046bd      0x226 test.o
+ .debug_macro   0x00000000000048e3      0x77d test.o
+ .debug_macro   0x0000000000005060       0x5e test.o
+ .debug_macro   0x00000000000050be      0x5ff test.o
+ .debug_macro   0x00000000000056bd      0x3b9 test.o
+ .debug_macro   0x0000000000005a76       0x94 test.o
+ .debug_macro   0x0000000000005b0a      0xc55 test.o
+ .debug_macro   0x000000000000675f     0x1094 test.o
+ .debug_macro   0x00000000000077f3      0xc4a test.o
+ .debug_macro   0x000000000000843d      0x6c3 test.o
+ .debug_macro   0x0000000000008b00     0x1877 test.o
+ .debug_macro   0x000000000000a377     0x13be test.o
+ .debug_macro   0x000000000000b735      0x352 test.o
+ .debug_macro   0x000000000000ba87       0x7c test.o
+ .debug_macro   0x000000000000bb03       0xa0 test.o
+ .debug_macro   0x000000000000bba3       0xc4 test.o
+ .debug_macro   0x000000000000bc67       0x94 test.o
+ .debug_macro   0x000000000000bcfb       0x58 test.o
+ .debug_macro   0x000000000000bd53      0x368 test.o
+ .debug_macro   0x000000000000c0bb       0x82 test.o
+ .debug_macro   0x000000000000c13d       0xa0 test.o
+ .debug_macro   0x000000000000c1dd       0xb8 test.o
+ .debug_macro   0x000000000000c295       0x1c test.o
+ .debug_macro   0x000000000000c2b1       0x1c test.o
+ .debug_macro   0x000000000000c2cd       0x1c test.o
+ .debug_macro   0x000000000000c2e9       0x7c test.o
+ .debug_macro   0x000000000000c365      0x1ca test.o
+ .debug_macro   0x000000000000c52f       0x16 test.o
+ .debug_macro   0x000000000000c545       0xdc test.o
+ .debug_macro   0x000000000000c621      0x133 test.o
+ .debug_macro   0x000000000000c754      0x133 test.o
+ .debug_macro   0x000000000000c887      0x133 test.o
+ .debug_macro   0x000000000000c9ba      0x133 test.o
+ .debug_macro   0x000000000000caed      0x133 test.o
+ .debug_macro   0x000000000000cc20      0x133 test.o
+ .debug_macro   0x000000000000cd53      0x11e test.o
+ .debug_macro   0x000000000000ce71       0xe2 test.o
+ .debug_macro   0x000000000000cf53       0xe2 test.o
+ .debug_macro   0x000000000000d035       0xe2 test.o
+ .debug_macro   0x000000000000d117      0x130 test.o
+ .debug_macro   0x000000000000d247      0x100 test.o
+ .debug_macro   0x000000000000d347       0xf4 test.o
+ .debug_macro   0x000000000000d43b      0x408 test.o
+ .debug_macro   0x000000000000d843       0x40 test.o
+ .debug_macro   0x000000000000d883      0x329 test.o
+ .debug_macro   0x000000000000dbac     0x197f test.o
+ .debug_macro   0x000000000000f52b       0x58 test.o
+ .debug_macro   0x000000000000f583       0x22 test.o
+ .debug_macro   0x000000000000f5a5       0x22 test.o
+ .debug_macro   0x000000000000f5c7       0x22 test.o
+ .debug_macro   0x000000000000f5e9       0x28 test.o
+ .debug_macro   0x000000000000f611      0x3c1 test.o
+ .debug_macro   0x000000000000f9d2       0xbe test.o
+
+.debug_line     0x0000000000000000      0x726
+ .debug_line    0x0000000000000000      0x726 test.o
+
+.debug_str      0x0000000000000000    0x61f29
+ .debug_str     0x0000000000000000    0x61f29 test.o
+                                      0x62177 (size before relaxing)
+
+.comment        0x0000000000000000       0x1d
+ .comment       0x0000000000000000       0x1d test.o
+                                         0x1e (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x32 test.o
+
+.debug_frame    0x0000000000000000       0x20
+ .debug_frame   0x0000000000000000       0x20 test.o
