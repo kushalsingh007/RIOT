@@ -13,6 +13,7 @@ RIOTBASE ?= $(CURDIR)/../..
 CFLAGS += -DDEVELHELP
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 0
+all: test.h
 
 test.h:
 	make -C $(CURDIR)/app clean all
