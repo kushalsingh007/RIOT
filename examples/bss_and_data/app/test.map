@@ -94,16 +94,16 @@ OUTPUT(test.elf elf32-littlearm)
 .debug_ranges   0x0000000000000000       0x10
  .debug_ranges  0x0000000000000000       0x10 test.o
 
-.debug_macro    0x0000000000000000      0x8bb
+.debug_macro    0x0000000000000000      0x8c1
  .debug_macro   0x0000000000000000       0x11 test.o
- .debug_macro   0x0000000000000011      0x8aa test.o
+ .debug_macro   0x0000000000000011      0x8b0 test.o
 
 .debug_line     0x0000000000000000       0x3f
  .debug_line    0x0000000000000000       0x3f test.o
 
-.debug_str      0x0000000000000000     0x2555
- .debug_str     0x0000000000000000     0x2555 test.o
-                                       0x2562 (size before relaxing)
+.debug_str      0x0000000000000000     0x2569
+ .debug_str     0x0000000000000000     0x2569 test.o
+                                       0x2576 (size before relaxing)
 
 .comment        0x0000000000000000       0x1d
  .comment       0x0000000000000000       0x1d test.o
