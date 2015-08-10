@@ -1,7 +1,7 @@
 /home/kushal/kaspar/RIOT/examples/bss_and_data/bin/samr21-xpro/core/atomic.o: \
  /home/kushal/kaspar/RIOT/core/atomic.c \
  /home/kushal/kaspar/RIOT/core/include/irq.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h \
  /home/kushal/kaspar/RIOT/cpu/cortexm_common/include/cpu.h \
  /home/kushal/kaspar/RIOT/cpu/samd21/include/cpu_conf.h \
@@ -70,7 +70,7 @@
 
 /home/kushal/kaspar/RIOT/core/include/irq.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h:
 

@@ -7,7 +7,7 @@
  /usr/arm-none-eabi/include/sys/features.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h \
  /usr/arm-none-eabi/include/sys/_types.h \
  /usr/arm-none-eabi/include/machine/_types.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
@@ -80,7 +80,7 @@
  /home/kushal/kaspar/RIOT/cpu/samd21/include/instance/instance_wdt.h \
  /home/kushal/kaspar/RIOT/cpu/samd21/include/pio/pio_samr21g18a.h \
  /home/kushal/kaspar/RIOT/core/include/irq.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h \
  /home/kushal/kaspar/RIOT/drivers/include/periph/rtc.h \
  /home/kushal/kaspar/RIOT/boards/samr21-xpro/include/periph_conf.h \
@@ -95,7 +95,7 @@
  /home/kushal/kaspar/RIOT/core/include/kernel_types.h \
  /usr/arm-none-eabi/include/inttypes.h \
  /usr/arm-none-eabi/include/limits.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h \
  /home/kushal/kaspar/RIOT/core/include/attributes.h \
  /home/kushal/kaspar/RIOT/core/include/native_sched.h \
  /home/kushal/kaspar/RIOT/core/include/thread.h \
@@ -123,7 +123,7 @@
 
 /usr/arm-none-eabi/include/_ansi.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h:
 
 /usr/arm-none-eabi/include/sys/_types.h:
 
@@ -269,7 +269,7 @@
 
 /home/kushal/kaspar/RIOT/core/include/irq.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h:
 
@@ -299,7 +299,7 @@
 
 /usr/arm-none-eabi/include/limits.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h:
 
 /home/kushal/kaspar/RIOT/core/include/attributes.h:
 

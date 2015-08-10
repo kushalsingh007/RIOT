@@ -1,14 +1,14 @@
 /home/kushal/kaspar/RIOT/examples/bss_and_data/bin/samr21-xpro/core/reboot.o: \
  /home/kushal/kaspar/RIOT/core/reboot.c \
  /home/kushal/kaspar/RIOT/core/include/kernel.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /usr/arm-none-eabi/include/stdint.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
  /usr/arm-none-eabi/include/sys/features.h \
  /usr/arm-none-eabi/include/sys/_intsup.h \
  /usr/arm-none-eabi/include/sys/_stdint.h \
  /home/kushal/kaspar/RIOT/core/include/attributes.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h \
  /home/kushal/kaspar/RIOT/sys/include/config.h \
  /home/kushal/kaspar/RIOT/core/include/tcb.h \
  /home/kushal/kaspar/RIOT/core/include/priority_queue.h \
@@ -22,7 +22,7 @@
  /usr/arm-none-eabi/include/sys/config.h \
  /usr/arm-none-eabi/include/machine/ieeefp.h \
  /usr/arm-none-eabi/include/limits.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h \
  /usr/arm-none-eabi/include/sys/types.h \
  /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/machine/_types.h \
@@ -97,7 +97,7 @@
 
 /home/kushal/kaspar/RIOT/core/include/kernel.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /usr/arm-none-eabi/include/stdint.h:
 
@@ -111,7 +111,7 @@
 
 /home/kushal/kaspar/RIOT/core/include/attributes.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h:
 
 /home/kushal/kaspar/RIOT/sys/include/config.h:
 
@@ -139,7 +139,7 @@
 
 /usr/arm-none-eabi/include/limits.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h:
 
 /usr/arm-none-eabi/include/sys/types.h:
 

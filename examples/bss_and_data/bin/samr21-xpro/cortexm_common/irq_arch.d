@@ -65,7 +65,7 @@
  /home/kushal/kaspar/RIOT/cpu/samd21/include/instance/instance_wdt.h \
  /home/kushal/kaspar/RIOT/cpu/samd21/include/pio/pio_samr21g18a.h \
  /home/kushal/kaspar/RIOT/core/include/irq.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h
 
 /usr/arm-none-eabi/include/stdint.h:
@@ -198,6 +198,6 @@
 
 /home/kushal/kaspar/RIOT/core/include/irq.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h:

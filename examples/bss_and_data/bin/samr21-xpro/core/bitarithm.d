@@ -7,8 +7,8 @@
  /usr/arm-none-eabi/include/sys/features.h \
  /usr/arm-none-eabi/include/sys/cdefs.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/sys/_types.h \
@@ -35,9 +35,9 @@
 
 /usr/arm-none-eabi/include/machine/_default_types.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h:
 
 /usr/arm-none-eabi/include/sys/reent.h:
 

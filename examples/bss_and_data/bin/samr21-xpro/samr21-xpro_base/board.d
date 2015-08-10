@@ -7,8 +7,8 @@
  /usr/arm-none-eabi/include/sys/features.h \
  /usr/arm-none-eabi/include/sys/cdefs.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/sys/_types.h \
@@ -80,8 +80,11 @@
  /home/kushal/kaspar/RIOT/cpu/samd21/include/instance/instance_wdt.h \
  /home/kushal/kaspar/RIOT/cpu/samd21/include/pio/pio_samr21g18a.h \
  /home/kushal/kaspar/RIOT/core/include/irq.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h \
+ /home/kushal/kaspar/RIOT/boards/samr21-xpro/include/periph_conf.h \
+ /home/kushal/kaspar/RIOT/cpu/samd21/include/periph_cpu.h \
+ /home/kushal/kaspar/RIOT/drivers/include/periph/dev_enums.h \
  /home/kushal/kaspar/RIOT/boards/samr21-xpro/include/periph_conf.h
 
 /usr/arm-none-eabi/include/stdio.h:
@@ -100,9 +103,9 @@
 
 /usr/arm-none-eabi/include/machine/_default_types.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h:
 
 /usr/arm-none-eabi/include/sys/reent.h:
 
@@ -246,8 +249,14 @@
 
 /home/kushal/kaspar/RIOT/core/include/irq.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /home/kushal/kaspar/RIOT/core/include/arch/irq_arch.h:
+
+/home/kushal/kaspar/RIOT/boards/samr21-xpro/include/periph_conf.h:
+
+/home/kushal/kaspar/RIOT/cpu/samd21/include/periph_cpu.h:
+
+/home/kushal/kaspar/RIOT/drivers/include/periph/dev_enums.h:
 
 /home/kushal/kaspar/RIOT/boards/samr21-xpro/include/periph_conf.h:

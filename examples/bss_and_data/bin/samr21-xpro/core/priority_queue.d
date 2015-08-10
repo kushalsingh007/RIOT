@@ -9,12 +9,12 @@
  /usr/arm-none-eabi/include/stdint.h \
  /usr/arm-none-eabi/include/machine/_default_types.h \
  /usr/arm-none-eabi/include/sys/_stdint.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h \
  /home/kushal/kaspar/RIOT/core/include/priority_queue.h \
  /home/kushal/kaspar/RIOT/core/include/debug.h \
  /usr/arm-none-eabi/include/stdio.h /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/sys/cdefs.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/sys/_types.h \
@@ -31,10 +31,10 @@
  /home/kushal/kaspar/RIOT/core/include/kernel_macros.h \
  /home/kushal/kaspar/RIOT/core/include/cib.h \
  /home/kushal/kaspar/RIOT/core/include/msg.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h \
  /home/kushal/kaspar/RIOT/core/include/kernel_types.h \
  /usr/arm-none-eabi/include/limits.h \
- /usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h \
+ /usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h \
  /home/kushal/kaspar/RIOT/core/include/attributes.h \
  /home/kushal/kaspar/RIOT/core/include/native_sched.h \
  /home/kushal/kaspar/RIOT/core/include/thread.h \
@@ -123,7 +123,7 @@
 
 /usr/arm-none-eabi/include/sys/_stdint.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stddef.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stddef.h:
 
 /home/kushal/kaspar/RIOT/core/include/priority_queue.h:
 
@@ -135,7 +135,7 @@
 
 /usr/arm-none-eabi/include/sys/cdefs.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdarg.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdarg.h:
 
 /usr/arm-none-eabi/include/sys/reent.h:
 
@@ -169,13 +169,13 @@
 
 /home/kushal/kaspar/RIOT/core/include/msg.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include/stdbool.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include/stdbool.h:
 
 /home/kushal/kaspar/RIOT/core/include/kernel_types.h:
 
 /usr/arm-none-eabi/include/limits.h:
 
-/usr/lib/gcc/arm-none-eabi/5.1.0/include-fixed/limits.h:
+/usr/lib/gcc/arm-none-eabi/5.2.0/include-fixed/limits.h:
 
 /home/kushal/kaspar/RIOT/core/include/attributes.h:
 
