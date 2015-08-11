@@ -1,22 +1,21 @@
+#include <fcntl.h>
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 #include "riot_elf.h"
 
-#define MAX_SIZE 100000000
-
-char file_buff[MAX_SIZE];
+char *file_buff = NULL;
 
 int main(int argc, const char* argv[])
 {
-    /* Can optimize this part based on use of malloc or optimized read */
     int fd, file_size;
     Elf32_Addr elf_addr;
+    struct stat st;
 
     if (argc < 2) {
         fprintf(stderr, "usage: elf_parse <elf-file>\n");
@@ -31,10 +30,22 @@ int main(int argc, const char* argv[])
         return 1;
     }
 
-    file_size = read(fd, file_buff, MAX_SIZE);
+    if(stat(argv[1], &st) == -1){
+        fprintf(stderr, "Error : Unable to determine file size\n");
+        return 1;
+    }
+
+    file_buff = malloc((st.st_size + 1));
+
+    if(file_buff == NULL){
+        fprintf(stderr, "Error : Unable to allocate memory\n");
+        return 1;
+    }
+
+    file_size = read(fd, file_buff, st.st_size);
 
     if (file_size <=0) {
-        fprintf(stderr, "Error : unexpected elf file size\n");
+        fprintf(stderr, "Error : Unexpected elf file size\n");
         return 1;
     }
 
@@ -42,6 +53,7 @@ int main(int argc, const char* argv[])
     elf_addr = elf_locate(file_buff, "test_elf" );
     printf("Value- %" PRIx32 "\n", elf_addr);
 
+    free(file_buff);
     close(fd);
 
     return 0;
