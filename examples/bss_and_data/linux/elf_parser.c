@@ -50,8 +50,8 @@ int main(int argc, const char* argv[])
     }
 
     printf("read %u bytes\n", file_size);
-    elf_addr = elf_locate(file_buff, "test_elf" );
-    printf("Value- %" PRIx32 "\n", elf_addr);
+
+    list_symbol_info(file_buff);
 
     free(file_buff);
     close(fd);
