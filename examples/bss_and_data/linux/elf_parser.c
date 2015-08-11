@@ -42,6 +42,8 @@ int main(int argc, const char* argv[])
     elf_addr = elf_locate(file_buff, "test_elf" );
     printf("Value- %" PRIx32 "\n", elf_addr);
 
+    free(file_buff);
+
     close(fd);
 
     return 0;
