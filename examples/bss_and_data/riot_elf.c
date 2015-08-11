@@ -4,23 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-#include "elf.h"
-#define MAX_SIZE 100000000
-
-void list_shdr_table_entries(char *);
-void list_symbol_info(char *);
-void print_symbol_info(Elf32_Half);
-void process_symtab(char *, Elf32_Ehdr, int);
-void print_rel_type(Elf32_Word);
-void print_sym_name(char *, Elf32_Ehdr, int, int);
-void process_rel(char *, Elf32_Ehdr, int );
-void print_break(void);
+#include "riot_elf.h"
 
 char **section_name;
 int count;
-char file_buff[MAX_SIZE];
 
 int elf_parse(Elf32_Addr elf_addr)
 {
@@ -313,36 +301,5 @@ Elf32_Addr elf_locate(char * elf_ptr, char *file_ptr)
     }
 
     free(stringTable);
-    return 0;
-}
-
-int main()
-{
-    /* Can optimize this part based on use of malloc or optimized read */
-    int fd, file_size;
-    Elf32_Addr elf_addr;
-
-    fd = open("/home/kushal/kaspar/RIOT/examples/bss_and_data/bin/samr21-xpro/app-test.elf",O_RDONLY);
-    file_size = 0;
-
-    if(fd == -1){
-        printf("Error : Unable to open the file\n");
-        return 1;;
-    }
-     
-    while (read(fd, &file_buff[file_size++], sizeof(char)));
-    list_shdr_table_entries(file_buff);
-    elf_addr = elf_locate(file_buff,"test_elf");
-    printf("Value- %" PRIx32 "\n", elf_addr);
-
-    if(elf_addr != 0){
-        if(elf_parse(elf_addr)){
-            printf("Error in parsing the elf file\n");
-            return 1;
-        }
-    }
-
-    list_symbol_info(file_buff);
-    close(fd);
     return 0;
 }
