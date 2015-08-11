@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include "test.h"
 
+#include "riot_elf.h"
+
 typedef int (*f_ptr)(void);
 f_ptr ptr = (f_ptr) &test_elf+85;
 
@@ -31,8 +33,9 @@ void my_test(void) {
 
 int main(void)
 {
-    printf("Jumping to 0x%08x...\n", (unsigned)*ptr);
-    int res = ptr();
-    printf("res=%i\n", res);
+    printf("symbol info:\n");
+    list_symbol_info((char*)test_elf);
+    printf("...\n");
     return 0;
 }
+
