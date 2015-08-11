@@ -85,7 +85,7 @@ bin: test.elf
 	xxd -i test.elf > test.h
 
 test.elf : test.o
-	arm-none-eabi-ld -T app.ld -Map=test.map test.o -o test.elf
+	arm-none-eabi-ld -T app.ld -Map=test.map test.o -o test.elf -shared
 
 test.o : test.c
 	arm-none-eabi-gcc -Wall $(CFLAGS) --specs=nosys.specs -c -fPIC test.c

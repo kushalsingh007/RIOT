@@ -10,4 +10,5 @@ SECTIONS
     .text : { *(.text) }
     .data : { *(.data) }
     .bss : { *(.bss) }
+    .rel.plt : { *(.rel.plt) }
 }

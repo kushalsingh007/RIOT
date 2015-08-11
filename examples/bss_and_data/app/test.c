@@ -18,15 +18,21 @@
  * @}
  */
 
+#include <stdio.h>
+
 volatile unsigned int a=64;
 volatile unsigned int x;
 volatile unsigned int k=0;
 volatile unsigned int y=3735928559;
 volatile unsigned int alpha_beta=3735928559;
 
-int test(void) {
+int test(void)
+{
 
     x=1;
     k=1;
+
+    puts("test");
+
     return 1;
 }
