@@ -58,7 +58,7 @@ void list_symbol_info(char * elf_ptr)
         sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + index * elfHeader->e_shentsize);
         printf("index=%u sh_type=0x%08x\n", index, (unsigned)sectionHeader->sh_type);
 
-        if(sectionHeader->sh_type == SHT_SYMTAB) {
+        if(sectionHeader->sh_type == SHT_DYNSYM) {
             process_symtab(elf_ptr, index);
         }
         else if (sectionHeader->sh_type == SHT_REL) {
@@ -234,7 +234,7 @@ void process_rel(char * elf_ptr, int rel_index)
         rel_entry = (Elf32_Rel *) (elf_ptr + sectionHeader->sh_offset + index * sizeof(Elf32_Rel));
         printf("[%2d] -  %" PRIx32 "  %" PRIx32 "   ", index, rel_entry->r_offset,  rel_entry->r_info);
 
-        /* If symbol table index in null/not defined then take symbol value == 0*/
+        /* If symbol table index in null/not defined then take symbol value == STN_UNDEF*/
         if(ELF32_R_SYM(rel_entry->r_info) == STN_UNDEF)
             printf(" STN_UNDEF   ");
         else {
