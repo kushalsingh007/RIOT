@@ -7,8 +7,6 @@
 
 #include "riot_elf.h"
 
-int count;
-
 int elf_parse(Elf32_Addr elf_addr)
 {
 
@@ -17,37 +15,31 @@ int elf_parse(Elf32_Addr elf_addr)
 
 #if 0
 /* Print all the Section Table Header entries */
-void list_shdr_table_entries(Elf32_Ehdr *elfHeader)
+void list_shdr_table_entries(char *elf_ptr)
 {
+	Elf32_Ehdr *elfHeader;
     Elf32_Shdr *sectionHeader;
     char *stringTable = NULL;
 
-    sectionHeader = (Elf32_Shdr *) ((char*)&elfHeader) + elfHeader->e_shoff + elfHeader->e_shstrndx * elfHeader->e_shentsize;
-    stringTable = malloc(sectionHeader.sh_size);
+    elfHeader = (Elf32_Ehdr *) elf_ptr;
+    sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + elfHeader->e_shstrndx * elfHeader->e_shentsize);
 
     /* Put the contents of the string table in the array */
-    memcpy(stringTable, elf_ptr + sectionHeader.sh_offset, sectionHeader.sh_size);
-
-    /* Initializing array for storing section names */
-    section_name = malloc(elfHeader.e_shnum * sizeof(char *));
+    stringTable = elf_ptr + sectionHeader->sh_offset;
 
     /* Print the names of all the sections and process symbol table */
-    for(int index=0; index < elfHeader.e_shnum; index++)
+    for(int index=0; index < elfHeader->e_shnum; index++)
     {
-        memcpy(&sectionHeader,elf_ptr + elfHeader.e_shoff + index * elfHeader.e_shentsize, sizeof(sectionHeader));
-        section_name[count] = malloc(sizeof(char)*(strlen(stringTable + sectionHeader.sh_name)+1));
-        strcpy(section_name[count++],stringTable + sectionHeader.sh_name);
+        sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + index * elfHeader->e_shentsize);
 
-/*      Disasble the output for now
         if(index<10)
-            printf("[ %d] %s\n",index, stringTable + sectionHeader.sh_name);
+            printf("[ %d] %s\n",index, stringTable + sectionHeader->sh_name);
         else
-            printf("[%d] %s\n",index, stringTable + sectionHeader.sh_name);
- */
+            printf("[%d] %s\n",index, stringTable + sectionHeader->sh_name);
+
     }
 
     print_break();
-    free(stringTable);
 
 }
 #endif
@@ -66,7 +58,7 @@ void list_symbol_info(char * elf_ptr)
         sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + index * elfHeader->e_shentsize);
         printf("index=%u sh_type=0x%08x\n", index, (unsigned)sectionHeader->sh_type);
 
-        if(sectionHeader->sh_type == SHT_SYMTAB) {
+        if(sectionHeader->sh_type == SHT_DYNSYM) {
             process_symtab(elf_ptr, index);
         }
         else if (sectionHeader->sh_type == SHT_REL) {
@@ -101,12 +93,12 @@ void process_symtab(char* elf_ptr, int sym_index)
     elfHeader = (Elf32_Ehdr *) elf_ptr;
 
     /* Jumping to the symtab entry directly */
-    sectionHeader = (Elf32_Shdr *) elf_ptr +
-        elfHeader->e_shoff + sym_index * elfHeader->e_shentsize;
+    sectionHeader = (Elf32_Shdr *) (elf_ptr +
+        elfHeader->e_shoff + sym_index * elfHeader->e_shentsize);
 
     /* Reading from the String Table linked to ot */
-    strtabHeader = (Elf32_Shdr *) elf_ptr +
-        elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize;
+    strtabHeader = (Elf32_Shdr *) (elf_ptr +
+        elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize);
 
     stringTable = elf_ptr + strtabHeader->sh_offset;
 
@@ -116,8 +108,8 @@ void process_symtab(char* elf_ptr, int sym_index)
 
     for(int index = 0; index < num_entries ; index++)
     {
-        symbol_symtab = (Elf32_Sym *) elf_ptr +
-            sectionHeader->sh_offset + index * sizeof(Elf32_Sym);
+        symbol_symtab = (Elf32_Sym *) (elf_ptr +
+            sectionHeader->sh_offset + index * sizeof(Elf32_Sym));
 
         if(index < 10)
             printf("( %d) - %s ", index, stringTable + symbol_symtab->st_name);
@@ -142,10 +134,10 @@ void print_sym_name(char * elf_ptr, int symtab_index, int strtab_index)
 
     elfHeader = (Elf32_Ehdr *) elf_ptr;
 
-    sectionHeader = (Elf32_Shdr *) elf_ptr + elfHeader->e_shoff + symtab_index * elfHeader->e_shentsize;
+    sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + symtab_index * elfHeader->e_shentsize);
 
     /* Reading from the String Table linked to it */
-    strtabHeader = (Elf32_Shdr *) elf_ptr + elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize;
+    strtabHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize);
 
     stringTable = elf_ptr + strtabHeader->sh_offset;
 
@@ -155,7 +147,7 @@ void print_sym_name(char * elf_ptr, int symtab_index, int strtab_index)
     }
 
     /* Moving to the Symbol table data */
-    symbol_symtab = (Elf32_Sym *) elf_ptr + sectionHeader->sh_offset + strtab_index * sizeof(Elf32_Sym);
+    symbol_symtab = (Elf32_Sym *) (elf_ptr + sectionHeader->sh_offset + strtab_index * sizeof(Elf32_Sym));
 
     //printf("  %d  %s  ",symbol_symtab.st_value, stringTable + symbol_symtab.st_name);
    // printf("  %d  %d  ",symbol_symtab.st_value, symbol_symtab.st_name);
@@ -227,7 +219,7 @@ void process_rel(char * elf_ptr, int rel_index)
     elfHeader = (Elf32_Ehdr *) elf_ptr;
 
     /* Jumping to the .rel table entry directly */
-    sectionHeader = (Elf32_Shdr *) elf_ptr + elfHeader->e_shoff + rel_index * elfHeader->e_shentsize;
+    sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + rel_index * elfHeader->e_shentsize);
 
     /* Reading the index of the Symbol Table linked to it */
     symtab_index = sectionHeader->sh_link;
@@ -239,10 +231,10 @@ void process_rel(char * elf_ptr, int rel_index)
 
     for(int index = 0; index < num_entries ; index++)
     {
-        rel_entry = (Elf32_Rel *) elf_ptr + sectionHeader->sh_offset + index * sizeof(Elf32_Rel);
+        rel_entry = (Elf32_Rel *) (elf_ptr + sectionHeader->sh_offset + index * sizeof(Elf32_Rel));
         printf("[%2d] -  %" PRIx32 "  %" PRIx32 "   ", index, rel_entry->r_offset,  rel_entry->r_info);
 
-        /* If symbol table index in null/not defined then take symbol value == 0*/
+        /* If symbol table index in null/not defined then take symbol value == STN_UNDEF*/
         if(ELF32_R_SYM(rel_entry->r_info) == STN_UNDEF)
             printf(" STN_UNDEF   ");
         else {
@@ -276,27 +268,26 @@ Elf32_Addr elf_locate(char * elf_ptr, char *file_ptr)
     /* Finding symtab index */
     for(int index = 0; index < elfHeader->e_shnum; index++)
     {
-        sectionHeader = (Elf32_Shdr *) elf_ptr + elfHeader->e_shoff + index * elfHeader->e_shentsize;
+        sectionHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + index * elfHeader->e_shentsize);
         if(sectionHeader->sh_type == SHT_SYMTAB){
 
             /* Reading from the String Table linked to it */
-            strtabHeader = (Elf32_Shdr *) elf_ptr + elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize;
+            strtabHeader = (Elf32_Shdr *) (elf_ptr + elfHeader->e_shoff + sectionHeader->sh_link * elfHeader->e_shentsize);
 
             stringTable = elf_ptr + strtabHeader->sh_offset;
             num_entries = sectionHeader->sh_size/sizeof(Elf32_Sym);
 
             for(int i = 0; i < num_entries ; i++)
             {
-                memcpy(&symbol_symtab, elf_ptr + sectionHeader.sh_offset + i * sizeof(symbol_symtab), sizeof(symbol_symtab));
+                symbol_symtab = (Elf32_Sym *) (elf_ptr + sectionHeader->sh_offset + i * sizeof(Elf32_Sym));
 
                 /* Currently we use the array test_elf[] which has type STT_OBJECT -- Maybe be changed to generalize */
-                if(ELF32_ST_TYPE(symbol_symtab.st_info) == STT_OBJECT)
+                if(ELF32_ST_TYPE(symbol_symtab->st_info) == STT_OBJECT)
                 {
-                    if(!strcmp(file_ptr, stringTable + symbol_symtab.st_name))
+                    if(!strcmp(file_ptr, stringTable + symbol_symtab->st_name))
                     {
-                        printf("Section Index- %d \n", symbol_symtab.st_shndx);
-                        free(stringTable);
-                        return symbol_symtab.st_value;
+                        printf("Section Index- %d  Addr Value- %" PRIx32 "\n", symbol_symtab->st_shndx,symbol_symtab->st_value);
+                        return symbol_symtab->st_value;
                     }
                 }
 
@@ -304,7 +295,6 @@ Elf32_Addr elf_locate(char * elf_ptr, char *file_ptr)
         }
     }
 
-    free(stringTable);
     return 0;
 }
 #endif
