@@ -98,13 +98,10 @@ void print_symbol_info(Elf32_Half shndx)
 /* Process the symbol table to give symbol name and it's section type */
 void process_symtab(char* elf_ptr, int sym_index)
 {
-    Elf32_Ehdr *elfHeader;
     char *stringTable = NULL;
     Elf32_Shdr *sectionHeader, *strtabHeader;
     Elf32_Sym *symbol_symtab;
     int num_entries;
-
-    elfHeader = (Elf32_Ehdr *) elf_ptr;
 
     /* Jumping to the symtab entry directly */
     sectionHeader = getElfSectionHdr(elf_ptr, sym_index);
@@ -138,12 +135,9 @@ void process_symtab(char* elf_ptr, int sym_index)
 /* Currently sort of redundant -- Find some optimized way to code this */
 void print_sym_name(char * elf_ptr, int symtab_index, int strtab_index)
 {
-    Elf32_Ehdr *elfHeader;
     Elf32_Shdr *sectionHeader, *strtabHeader;
     Elf32_Sym *symbol_symtab;
     char *stringTable;
-
-    elfHeader = (Elf32_Ehdr *) elf_ptr;
 
     sectionHeader = getElfSectionHdr(elf_ptr, symtab_index);
 
@@ -222,12 +216,9 @@ void print_rel_type(Elf32_Word r_info)
 /* Print the symbol related relocation info from the relocation table (currently .rel only) */
 void process_rel(char * elf_ptr, int rel_index)
 {
-    Elf32_Ehdr *elfHeader;
     Elf32_Shdr *sectionHeader;
     Elf32_Rel *rel_entry;
     int num_entries, symtab_index;
-
-    elfHeader = (Elf32_Ehdr *) elf_ptr;
 
     /* Jumping to the .rel table entry directly */
     sectionHeader = getElfSectionHdr(elf_ptr, rel_index);
