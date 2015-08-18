@@ -1,0 +1,176 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+x                   0x4               test.o
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+ .group         0x0000000000000000        0x8 test.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000000000094                . = (0x0 + SIZEOF_HEADERS)
+
+.text           0x0000000000000094        0xe
+ *(.text)
+ .text          0x0000000000000094        0xe test.o
+                0x0000000000000094                my_dance
+                0x0000000000000098                test
+
+.glue_7         0x00000000000000a4        0x0
+ .glue_7        0x00000000000000a4        0x0 linker stubs
+
+.glue_7t        0x00000000000000a4        0x0
+ .glue_7t       0x00000000000000a4        0x0 linker stubs
+
+.vfp11_veneer   0x00000000000000a4        0x0
+ .vfp11_veneer  0x00000000000000a4        0x0 linker stubs
+
+.v4_bx          0x00000000000000a4        0x0
+ .v4_bx         0x00000000000000a4        0x0 linker stubs
+
+.plt            0x00000000000000a4       0x20
+ .plt           0x00000000000000a4       0x20 test.o
+
+.iplt           0x00000000000000c4        0x0
+ .iplt          0x00000000000000c4        0x0 test.o
+
+.rel.dyn        0x00000000000000c4        0x0
+ .rel.got       0x00000000000000c4        0x0 test.o
+ .rel.iplt      0x00000000000000c4        0x0 test.o
+
+.data           0x00000000000000c4        0x8
+ *(.data)
+ .data          0x00000000000000c4        0x8 test.o
+                0x00000000000000c4                y
+                0x00000000000000c8                a
+
+.dynamic        0x00000000000000cc       0x78
+ .dynamic       0x00000000000000cc       0x78 test.o
+                0x00000000000000cc                _DYNAMIC
+
+.got            0x0000000000000144        0x0
+ .got           0x0000000000000144        0x0 test.o
+
+.got.plt        0x0000000000000144       0x10
+ .got.plt       0x0000000000000144       0x10 test.o
+                0x0000000000000144                _GLOBAL_OFFSET_TABLE_
+
+.igot.plt       0x0000000000000154        0x0
+ .igot.plt      0x0000000000000154        0x0 test.o
+
+.bss            0x0000000000000154        0x4
+ *(.bss)
+ .bss           0x0000000000000154        0x0 test.o
+ COMMON         0x0000000000000154        0x4 test.o
+                0x0000000000000154                x
+
+.dynbss         0x0000000000000158        0x0
+ .dynbss        0x0000000000000158        0x0 test.o
+
+.rel.plt        0x0000000000000158        0x8
+ *(.rel.plt)
+ .rel.plt       0x0000000000000158        0x8 test.o
+LOAD symbols.txt
+                0x0000000000001397                puts = 0x1397
+LOAD test.o
+OUTPUT(test.elf elf32-littlearm)
+
+.gnu.version_d  0x0000000000000160        0x0
+ .gnu.version_d
+                0x0000000000000160        0x0 test.o
+
+.gnu.version    0x0000000000000160        0x0
+ .gnu.version   0x0000000000000160        0x0 test.o
+
+.gnu.version_r  0x0000000000000160        0x0
+ .gnu.version_r
+                0x0000000000000160        0x0 test.o
+
+.dynsym         0x0000000000000160       0x90
+ .dynsym        0x0000000000000160       0x90 test.o
+
+.dynstr         0x00000000000001f0       0x1a
+ .dynstr        0x00000000000001f0       0x1a test.o
+
+.hash           0x000000000000020c       0x38
+ .hash          0x000000000000020c       0x38 test.o
+
+.debug_info     0x0000000000000000       0xe8
+ .debug_info    0x0000000000000000       0xe8 test.o
+
+.debug_abbrev   0x0000000000000000       0x86
+ .debug_abbrev  0x0000000000000000       0x86 test.o
+
+.debug_aranges  0x0000000000000000       0x20
+ .debug_aranges
+                0x0000000000000000       0x20 test.o
+
+.debug_macro    0x0000000000000000     0x144d
+ .debug_macro   0x0000000000000000      0x10d test.o
+ .debug_macro   0x000000000000010d      0x832 test.o
+ .debug_macro   0x000000000000093f       0x58 test.o
+ .debug_macro   0x0000000000000997       0x22 test.o
+ .debug_macro   0x00000000000009b9       0x74 test.o
+ .debug_macro   0x0000000000000a2d       0x9c test.o
+ .debug_macro   0x0000000000000ac9       0x16 test.o
+ .debug_macro   0x0000000000000adf       0x4a test.o
+ .debug_macro   0x0000000000000b29       0x97 test.o
+ .debug_macro   0x0000000000000bc0      0x29d test.o
+ .debug_macro   0x0000000000000e5d       0xf6 test.o
+ .debug_macro   0x0000000000000f53       0x10 test.o
+ .debug_macro   0x0000000000000f63       0x52 test.o
+ .debug_macro   0x0000000000000fb5       0x16 test.o
+ .debug_macro   0x0000000000000fcb       0x43 test.o
+ .debug_macro   0x000000000000100e      0x180 test.o
+ .debug_macro   0x000000000000118e       0x10 test.o
+ .debug_macro   0x000000000000119e       0x22 test.o
+ .debug_macro   0x00000000000011c0       0x22 test.o
+ .debug_macro   0x00000000000011e2       0xbe test.o
+ .debug_macro   0x00000000000012a0       0x16 test.o
+ .debug_macro   0x00000000000012b6      0x197 test.o
+
+.debug_line     0x0000000000000000      0x19a
+ .debug_line    0x0000000000000000      0x19a test.o
+
+.debug_str      0x0000000000000000     0x5518
+ .debug_str     0x0000000000000000     0x5518 test.o
+                                       0x5677 (size before relaxing)
+
+.comment        0x0000000000000000       0x1d
+ .comment       0x0000000000000000       0x1d test.o
+                                         0x1e (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x32 test.o
+
+.debug_frame    0x0000000000000000       0x38
+ .debug_frame   0x0000000000000000       0x38 test.o

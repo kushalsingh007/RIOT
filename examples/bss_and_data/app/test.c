@@ -22,17 +22,23 @@
 
 volatile unsigned int a=64;
 volatile unsigned int x;
-volatile unsigned int k=0;
-volatile unsigned int y=3735928559;
-volatile unsigned int alpha_beta=3735928559;
+//volatile unsigned int k=0;
+volatile unsigned int y=3199196845;
+//volatile unsigned int alpha_beta=3735928559;
+int my_dance(void);
+
+int my_dance(void)
+{return 0;}
 
 int test(void)
 {
 
-    x=1;
-    k=1;
+   // x=1;
+   //y=1;
+   //a=3199196845;
+  // x=3735928559;    
+    my_dance();
+   // puts("test");
 
-    puts("test");
-
-    return 1;
+   return 1;
 }

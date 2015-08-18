@@ -15,5 +15,5 @@ Elf32_Addr elf_locate(char *, char *);
 Elf32_Shdr* getElfSectionHdr(char *, int);
 Elf32_Sym* getElfSym(char *, Elf32_Off, int);
 Elf32_Rel* getElfRel(char *, Elf32_Off, int);
-
+int elf_parse_rel(char *elf_ptr,int index);
 #endif /* RIOT_ELF_H */

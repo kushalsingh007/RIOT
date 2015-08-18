@@ -7,12 +7,6 @@
 
 #include "riot_elf.h"
 
-int elf_parse(Elf32_Addr elf_addr)
-{
-
-    return 0;
-}
-
 Elf32_Shdr* getElfSectionHdr(char *elf_ptr, int index)
 {
 	return (Elf32_Shdr *) (elf_ptr + ((Elf32_Ehdr *) elf_ptr)->e_shoff + index *((Elf32_Ehdr *) elf_ptr)->e_shentsize);
@@ -76,7 +70,7 @@ void list_symbol_info(char * elf_ptr)
             process_symtab(elf_ptr, index);
         }
         else if (sectionHeader->sh_type == SHT_REL) {
-            process_rel(elf_ptr, index);
+            printf("Return value - %d\n",elf_parse_rel(elf_ptr, index));
         }
     }
 
@@ -154,7 +148,7 @@ void print_sym_name(char * elf_ptr, int symtab_index, int strtab_index)
     /* Moving to the Symbol table data */
     symbol_symtab = getElfSym(elf_ptr, sectionHeader->sh_offset,strtab_index);
 
-    //printf("  %d  %s  ",symbol_symtab.st_value, stringTable + symbol_symtab.st_name);
+    //printf("  %d  %s  ",symbol_symtab->st_value, stringTable + symbol_symtab->st_name);
    // printf("  %d  %d  ",symbol_symtab.st_value, symbol_symtab.st_name);
 
     if( symbol_symtab->st_shndx == SHN_UNDEF )
@@ -213,6 +207,123 @@ void print_rel_type(Elf32_Word r_info)
     printf("  \n");
 }
 
+Elf32_Addr getElfSymval(char * elf_ptr, int symtab_index, int index)
+{
+	//Elf32_Addr symval;
+    Elf32_Shdr *sectionHeader;//,*strtabHeader;
+    Elf32_Sym *symbol;
+    int symtab_entries;
+  	//char *sym_name;
+
+    /* Get the section header info of the symbol table */
+    sectionHeader = getElfSectionHdr(elf_ptr, symtab_index);
+
+    /* Calculate the number of entries in the symbol table */
+	symtab_entries = sectionHeader->sh_size / sectionHeader->sh_entsize;
+
+    if(index >= symtab_entries){
+        printf("  Index: Out of Bounds ");
+        return -1;
+    }
+
+    /* Moving to the Symbol table data (symbol at the given index) */
+    symbol = getElfSym(elf_ptr, sectionHeader->sh_offset,index);
+	
+	if(symbol->st_shndx == SHN_UNDEF) {
+		/* External symbol, lookup value */
+/*		Elf32_Shdr *strtabHeader = getElfSectionHdr(elf_ptr, sectionHeader->sh_link);
+		char *sym_name = elf_ptr + strtab->sh_offset + symbol->st_name;
+ 
+		extern void *elf_lookup_symbol(const char *name);
+		Elf32_Addr target = elf_lookup_symbol(name);
+		 Lookup the external symbol in the external symbol table and get the address 
+ 
+		if(target == NULL) {
+			// Extern symbol not found
+			if(ELF32_ST_BIND(symbol->st_info) & STB_WEAK) {
+				// Weak symbol initialized as 0
+				return 0;
+			} else {
+				ERROR("Undefined External Symbol : %s.\n", name);
+				return SOME_ERROR;
+			}
+		} else {
+			return (int)target;
+*/		return 0;
+	} else if(symbol->st_shndx == SHN_ABS) {
+		/* The address of the symbol is absolute */
+		return (Elf32_Addr ) symbol->st_value;
+		} 
+	else {
+		/* Internally defined symbols - We deal with virtual addresses (shared file)*/
+		printf("Yolo \n");
+		printf("The address of elf_ptr: %"PRIx32"\n",(long unsigned) elf_ptr );
+		printf("The address of Symbol->st_value : %"PRIx32"\n",symbol->st_value);
+		return (Elf32_Addr ) (elf_ptr + symbol->st_value);
+	}
+}
+
+int elf_parse_rel(char * elf_ptr, int rel_index)
+{
+    Elf32_Addr sym_value;
+    Elf32_Shdr *sectionHeader;
+    Elf32_Rel *rel_entry;
+    int num_entries, symtab_index;
+
+    /* Jumping to the .rel table entry directly */
+    sectionHeader = getElfSectionHdr(elf_ptr, rel_index);
+
+    /* Reading the index of the Symbol Table linked to it */
+    symtab_index = sectionHeader->sh_link;
+
+    num_entries = sectionHeader->sh_size/sizeof(Elf32_Rel);
+
+	for(int index = 0; index < num_entries ; index++)
+    {
+        rel_entry = getElfRel(elf_ptr, sectionHeader->sh_offset, index);
+
+        /* If symbol table index in null/not defined then take symbol value == STN_UNDEF*/
+        if(ELF32_R_SYM(rel_entry->r_info) == STN_UNDEF){
+            printf(" STN_UNDEF   ");
+            return 1;
+        }else {
+		        print_rel_type(ELF32_R_TYPE(rel_entry->r_info));
+				sym_value = getElfSymval(elf_ptr, symtab_index, ELF32_R_SYM(rel_entry->r_info));
+			    if(sym_value == 0){
+			        printf("Unable to get symbol value \n");
+			        return 1;
+			    }
+			    printf("%"PRIx32"\n",sym_value);
+			    /* Can add all the types needed based on need */
+		        switch(rel_entry->r_info)
+		        {
+		        	/* Different types of relocations */
+		        	/* Note: Right now default relocation only works */
+		        	case(R_ARM_GLOB_DAT):{
+		        	/* Dynamic - (S + A) | T */
+			        	memcpy(elf_ptr + rel_entry->r_offset,&sym_value,sizeof(Elf32_Addr));
+			        	break;
+	        		}
+
+	        		case(R_ARM_JUMP_SLOT):{
+		        	/* Dynamic - (S + A) | T */
+			        	memcpy(elf_ptr + rel_entry->r_offset,&sym_value,sizeof(Elf32_Addr));
+			        	break;
+	        		}
+
+	        		default:
+			        	memcpy(elf_ptr + rel_entry->r_offset,&sym_value,sizeof(Elf32_Addr));
+	        	}
+	        			printf("%lu\n",rel_entry->r_info );
+	        	        print_rel_type(ELF32_R_TYPE(rel_entry->r_info));
+
+	        }
+
+    }
+
+    return 0;
+}
+
 /* Print the symbol related relocation info from the relocation table (currently .rel only) */
 void process_rel(char * elf_ptr, int rel_index)
 {
@@ -240,8 +351,19 @@ void process_rel(char * elf_ptr, int rel_index)
         if(ELF32_R_SYM(rel_entry->r_info) == STN_UNDEF)
             printf(" STN_UNDEF   ");
         else {
+    
+			/* For .data section variable */
             puts("..");
             print_sym_name(elf_ptr, symtab_index, ELF32_R_SYM(rel_entry->r_info));
+            printf("\n\n%"PRIx32"\n\n",(long unsigned)elf_ptr + getElfSymval(elf_ptr, symtab_index, ELF32_R_SYM(rel_entry->r_info)));
+            printf("Put this value at %"PRIx32"\n",(long unsigned) elf_ptr+rel_entry->r_offset);
+            printf("Screw it .. Let's do it!!!!\n");
+		/*
+			Elf32_Addr dance = 	(Elf32_Addr) (elf_ptr + getElfSymval(elf_ptr, symtab_index, ELF32_R_SYM(rel_entry->r_info)));
+			memcpy(elf_ptr + rel_entry->r_offset,&dance,sizeof(Elf32_Addr));
+*/
+
+
         }
         print_rel_type(ELF32_R_TYPE(rel_entry->r_info));
     }

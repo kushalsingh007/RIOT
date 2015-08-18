@@ -24,18 +24,21 @@
 #include "riot_elf.h"
 
 typedef int (*f_ptr)(void);
-f_ptr ptr = (f_ptr) &test_elf+85;
+f_ptr ptr = (f_ptr) &test_elf+153;
 
 void my_test(void) __attribute__((used));
 void my_test(void) {
-    printf("test\n");
+//    printf("test\n");
 }
 
 int main(void)
 {
-    printf("symbol info:\n");
+//    printf("symbol info:\n");
     list_symbol_info((char*)test_elf);
-    printf("...\n");
+    int res = ptr();
+    printf("res=%i\n", res);
+    ///list_symbol_info((char*)test_elf);
+    //printf("...\n");
     return 0;
 }
 
