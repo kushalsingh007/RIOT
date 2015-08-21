@@ -19,21 +19,22 @@
  */
 
 #include <stdio.h>
-#include "test.h"
 
-#include "riot_elf.h"
+#include "app/app.h"
+
+#include "elf_loader.h"
 
 typedef int (*f_ptr)(void);
 
 int main(void)
 {
 
-    f_ptr ptr = (f_ptr) &test_elf+153 ;
+    f_ptr ptr = (f_ptr) &app_elf+165 ;
     /* Process internal relocations */
-    list_symbol_info((char *)test_elf);
+    list_symbol_info((char *)app_elf);
 
     /* Modify branch instructions */
-    elf_relocate_internal((char *)test_elf);
+    elf_relocate_internal((char *)app_elf);
 
     printf("Entering the app_elf function ..\n");
     int res = ptr();

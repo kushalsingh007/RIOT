@@ -7,11 +7,11 @@
  */
 
 /**
- * @ingroup     examples
+ * @ingroup     sys_elf_loader
  * @{
  *
  * @file
- * @brief       Demo application to implement dynamic linking
+ * @brief       Implementation of a dynamic elf linkker
  *
  * @author      Kushal Singh <kushal.spiderman.singh@gmail.com>
  *
@@ -25,7 +25,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "riot_elf.h"
+#include "elf_loader.h"
+
+typedef struct rel_array{
+    char *name;
+    Elf32_Addr addr;
+}rel_array;
+
+rel_array r_array[100];
+int count;
 
 Elf32_Shdr* getElfSectionHdr(char *elf_ptr, int index)
 {return (Elf32_Shdr *) (elf_ptr + ((Elf32_Ehdr *) elf_ptr)->e_shoff + index *((Elf32_Ehdr *) elf_ptr)->e_shentsize);}
