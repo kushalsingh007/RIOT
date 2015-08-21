@@ -91,4 +91,4 @@ app.o : app.c
 	arm-none-eabi-gcc -Wall $(CFLAGS) --specs=nosys.specs -c -fPIC app.c
 
 clean:
-	rm -f app.bin app.h app.elf app-unstripped.elf app.o
+	rm -f app.bin app.h app.elf app-unstripped.elf app.o app.map

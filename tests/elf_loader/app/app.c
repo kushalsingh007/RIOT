@@ -21,16 +21,23 @@
 volatile unsigned int test_var=4;
 
 int test_func1(void)
-{return 1;}
+{
+    return 1;
+}
 
 int test_func2(int test_parm)
-{return test_par+1;}
+{
+    return test_parm+1;
+}
 
-int test_val()
-{return test_func1() + test_func2(3) + test_var;}
+int test_val(void)
+{
+    return test_func1() + test_func2(3) + test_var;
+}
 
 int app(void)
 {
    int ret_val = test_val();
+
    return ret_val;;
 }

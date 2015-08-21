@@ -1,5 +1,5 @@
-#ifndef RIOT_ELF_H
-#define RIOT_ELF_H
+#ifndef ELF_LOADER_H
+#define ELF_LOADER_H
 
 #include "elf.h"
 
@@ -18,12 +18,4 @@ Elf32_Rel* getElfRel(char *, Elf32_Off, int);
 int elf_parse_rel(char *elf_ptr,int index);
 void elf_relocate_internal(char *);
 
-typedef struct rel_array{
-    char *name;
-    Elf32_Addr addr;
-}rel_array;
-
-
-rel_array r_array[100];
-int count;
-#endif /* RIOT_ELF_H */
+#endif /* ELF_LOADER_H */
