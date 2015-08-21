@@ -111,25 +111,23 @@ void elf_modify_instruction(char *elf_ptr)
 							printf("ELF_PTR%"PRIx32"\n", (Elf32_Addr)elf_ptr);
 							printf("%"PRIx32"\n",(Elf32_Addr)(start+(Elf32_Half)0x4));
 
-							Elf32_Half bl_high_addr =(((*start)>>11)<<11)|(((Elf32_Half)(((*(Elf32_Addr *)my_got - (Elf32_Addr)0x1 - (Elf32_Addr)(start) - (Elf32_Addr)(0x2))))>>1)&(0x7FF));
+							Elf32_Half bl_high_addr =(((*start)>>11)<<11)|(((Elf32_Half)(((*(Elf32_Addr *)my_got - (Elf32_Addr)(start) - (Elf32_Addr)(0x2))))>>1)&(0x7FF));
 							memcpy(start,&bl_high_addr,sizeof(Elf32_Half));
 							
 							printf("Elf - %"PRIx32"\n",(Elf32_Addr)elf_ptr);
 							printf("my_got %"PRIx32"\n",*((Elf32_Addr *)(my_got)));
-							printf("my_sum %"PRIx32"\n",*((Elf32_Addr *)(my_got))+(Elf32_Addr)elf_ptr );
+							printf("my_sum %"PRIx32"\n",*((Elf32_Addr *)(my_got))+(Elf32_Addr)elf_ptr);
 
 
 							printf("Yo THIS THE IMP %"PRIx32" and start was %"PRIx32"\n",(((*(Elf32_Addr *)my_got - (Elf32_Addr)(start) - (Elf32_Addr)(0x2)))),(long unsigned)*start);
 
 							start--;
-							printf("my_sym %"PRIx32"\n",((Elf32_Addr )(start)+0x4));
 
-							Elf32_Half bl_low_addr =((Elf32_Half)((*start)>>11)<<11)|(((Elf32_Half)(((*(Elf32_Addr *)my_got - (Elf32_Addr)(start) - (Elf32_Addr)(0x4))))>>12)&(0x07FF));
+							Elf32_Half bl_low_addr =((Elf32_Half)((*start)>>11)<<11)|(((Elf32_Addr)(((*(Elf32_Addr *)my_got - (Elf32_Addr)0x1 - (Elf32_Addr)(start) - (Elf32_Addr)(0x4))))>>12)&(0x7FF));
 							memcpy(start,&bl_low_addr,sizeof(Elf32_Half));
-							printf("my_sum %"PRIx32"\n",*((Elf32_Addr *)(my_got))+(Elf32_Addr)elf_ptr - (Elf32_Addr)(start) - (Elf32_Addr)(0x4));
 
 
-							printf("Hi- bl_addr %"PRIx16" and value is --  was %lx\n",(Elf32_Half)bl_low_addr,(Elf32_Addr)bl_high_addr);
+							printf("Hi- bl_addr %"PRIx32" and value is --  was %lx\n",(Elf32_Addr)bl_low_addr,(Elf32_Addr)bl_high_addr);
 							//Elf32_Half high_half = (((*start)>>11)<<11)|();
 							start++;
 							jump_addr=0;
